@@ -69,36 +69,82 @@ public class Game {
     }
     
     private void checkCollisions() {
-        for (Player player : players) {
-            List<Bullet> bullets = player.getTank().getBullets();
-            for (int i = bullets.size() - 1; i >= 0; i--) {
-                Bullet bullet = bullets.get(i);
-                
-                for (Wall wall : map.getWalls()) {
-                    if (Collision.bulletWall(bullet, wall)) {
-                        Vector2 normal = Collision.getWallNormal(bullet, wall);
-                        bullet.bounce(normal);
-                        break;
-                    }
-                }
-                
-                for (Player otherPlayer : players) {
-                    Tank otherTank = otherPlayer.getTank();
-                    
-                    boolean shouldHit = (bullet.getOwner() != otherTank) || 
-                                      (bullet.canHitOwner());
-                    
-                    if (shouldHit && Collision.bulletTank(bullet, otherTank)) {
-                        bullets.remove(i);
-                        otherTank.takeDamage(25);
-                        if (bullet.getOwner() != otherTank) {
-                            player.incrementScore();
-                        }
-                        break;
-                    }
-                }
-            }
-        }
+    	
+    	for (Player player : players) {
+    		
+    		bulletCollisions(player.getTank());
+    	}
+//        for (Player player : players) {
+//            List<Bullet> bullets = player.getTank().getBullets();
+//            for (int i = bullets.size() - 1; i >= 0; i--) {
+//                Bullet bullet = bullets.get(i);
+//                
+//                for (Wall wall : map.getWalls()) {
+//                    if (Collision.bulletWall(bullet, wall)) {
+//                        Vector2 normal = Collision.getWallNormal(bullet, wall);
+//                        bullet.bounce(normal);
+//                        break;
+//                    }
+//                }
+//                
+//                for (Player otherPlayer : players) {
+//                    Tank otherTank = otherPlayer.getTank();
+//                    
+//                    boolean shouldHit = (bullet.getOwner() != otherTank) || 
+//                                      (bullet.canHitOwner());
+//                    
+//                    if (shouldHit && Collision.bulletTank(bullet, otherTank)) {
+//                        bullets.remove(i);
+//                        otherTank.takeDamage(25);
+//                        if (bullet.getOwner() != otherTank) {
+//                            player.incrementScore();
+//                        }
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+    }
+    
+    private void bulletCollisions(Tank tank) {
+		for (Bullet bullet : tank.getBullets()) {
+			
+			int bulletx = (int) bullet.position.x;
+			int bullety = (int) bullet.position.y;
+			int bulletradius = (int) bullet.radius;
+			
+			boolean hitwall = false;
+			
+			for (Wall wall : map.getWalls()) {
+				
+				if (hitwall) {
+					System.out.print("break");
+					break;
+				}
+				else {
+					
+					boolean collideX = Collision.isCollidedX(bulletx - bulletradius, bulletradius * 2,
+							wall.x, wall.width);
+					boolean collideY = Collision.isCollidedY(bullety - bulletradius, bulletradius * 2,
+							wall.y, wall.height);
+					
+					if (collideX && collideY) {
+						
+						System.out.println("hitwall");
+						hitwall = true;
+						
+						if (bulletx + bulletradius < wall.x || bulletx > wall.x + wall.width) {
+							
+							bullet.bounceX();
+						}
+						if (bullety + bulletradius < wall.y || bullety > wall.y + wall.height) {
+							
+							bullet.bounceY();
+						}
+					}
+				}
+			}
+		}
     }
     
     private boolean checkGameOver() {
