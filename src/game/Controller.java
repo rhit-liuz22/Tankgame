@@ -35,17 +35,25 @@ public class Controller implements KeyListener {
             Controls controls = player.getControls();
             Tank tank = player.getTank();
             
-            tank.setMoving(false);
+            tank.setMovingForward(false);
+            tank.setMovingBackward(false);
+            tank.setRotatingLeft(false);
+            tank.setRotatingRight(false);
             
-            Vector2 direction = new Vector2(0, 0);
-            if (pressedKeys.contains(controls.up)) direction.y -= 1;
-            if (pressedKeys.contains(controls.down)) direction.y += 1;
-            if (pressedKeys.contains(controls.left)) direction.x -= 1;
-            if (pressedKeys.contains(controls.right)) direction.x += 1;
+            // Handle movement
+            if (pressedKeys.contains(controls.up)) {
+                tank.setMovingForward(true);
+            }
+            if (pressedKeys.contains(controls.down)) {
+                tank.setMovingBackward(true);
+            }
             
-            if (direction.length() > 0) {
-                tank.setDirection(direction.normalize());
-                tank.setMoving(true);
+            // Handle rotation
+            if (pressedKeys.contains(controls.left)) {
+                tank.setRotatingLeft(true);
+            }
+            if (pressedKeys.contains(controls.right)) {
+                tank.setRotatingRight(true);
             }
             
             if (pressedKeys.contains(controls.shoot)) {

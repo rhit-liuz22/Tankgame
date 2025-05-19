@@ -48,7 +48,6 @@ public class Game {
         for (Player player : players) {
             Vector2 spawn = map.getRandomSpawnPoint();
             player.getTank().setPosition(spawn.copy());
-            player.getTank().setDirection(new Vector2(1, 0));
         }
     }
     
