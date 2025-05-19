@@ -15,7 +15,7 @@ public class Bullet {
     private Tank owner;
     private int bounces = 0;
     private boolean canHitOwner = false;
-    private boolean bounceEnabled = false;
+    private boolean bounceEnabled = true;
     private int maxBounces = 0;
     
     public Bullet(Vector2 position, Vector2 direction, Color color, Tank owner) {
@@ -30,7 +30,7 @@ public class Bullet {
     }
     
     public void update(float deltaTime) {
-        position = position.add(velocity.mult(deltaTime));
+        nextpos = position.add(velocity.mult(deltaTime));
         
         lifetime -= deltaTime;
     }
@@ -54,6 +54,8 @@ public class Bullet {
     public void bounceX() {
     	
     	System.out.println("workingx");
+    	System.out.println(this.bounces);
+    	System.out.println(this.maxBounces);
     	if (this.bounceEnabled && this.bounces < this.maxBounces) {
     		
             velocity.x *= -1;
@@ -65,6 +67,8 @@ public class Bullet {
     public void bounceY() {
     	
     	System.out.println("workingy");
+    	System.out.println(this.bounces);
+    	System.out.println(this.maxBounces);
     	if (this.bounceEnabled && this.bounces < this.maxBounces) {
     		
             velocity.y *= -1;

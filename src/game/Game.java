@@ -109,8 +109,8 @@ public class Game {
     private void bulletCollisions(Tank tank) {
 		for (Bullet bullet : tank.getBullets()) {
 			
-			int bulletx = (int) bullet.position.x;
-			int bullety = (int) bullet.position.y;
+			int bulletx = (int) bullet.nextpos.x;
+			int bullety = (int) bullet.nextpos.y;
 			int bulletradius = (int) bullet.radius;
 			
 			boolean hitwall = false;
@@ -141,6 +141,10 @@ public class Game {
 							
 							bullet.bounceY();
 						}
+					}
+					else {
+						
+						bullet.position = bullet.nextpos;
 					}
 				}
 			}
