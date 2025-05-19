@@ -18,6 +18,8 @@ public class Bullet {
     private boolean bounceEnabled = true;
     private int maxBounces = 0;
     
+    private float deltaTime; // THIS FEELS UGLY
+    
     public Bullet(Vector2 position, Vector2 direction, Color color, Tank owner) {
         this.position = position;
         this.velocity = direction.mult(300f);
@@ -29,10 +31,22 @@ public class Bullet {
         this.maxBounces = 5;
     }
     
+    public void runCalculations(float deltaTime) {
+    	this.nextpos = position.add(velocity.mult(deltaTime));
+    			
+    }
     public void update(float deltaTime) {
-        nextpos = position.add(velocity.mult(deltaTime));
+    	this.deltaTime = deltaTime;
+    	updateNextPosition(deltaTime);
+    	
+        this.position = this.nextpos;
         
         lifetime -= deltaTime;
+    }
+    
+    public void updateNextPosition(float deltaTime) {
+    	
+    	this.nextpos = position.add(velocity.mult(deltaTime));
     }
     
     public void render(Graphics2D g2d) {
@@ -49,6 +63,42 @@ public class Bullet {
         return lifetime <= 0 || 
                position.x < 0 || position.x > 704 ||
                position.y < 0 || position.y > 640;
+    }
+    
+    public boolean bounceCheck(Wall wall) {
+    	
+    	int x = (int) (this.nextpos.x - this.radius);
+    	int y = (int) (this.nextpos.y - this.radius);
+    	int diameter = (int) this.radius * 2;
+    	
+    	if (Collision.isCollidedX(x, diameter, wall.x, wall.width) &&
+			Collision.isCollidedY(y,  diameter, wall.y,  wall.height)) {
+    		
+    		if (this.bounceEnabled && this.bounces < this.maxBounces) {
+    			
+	    		if ((int) this.position.x + diameter <= wall.x) {
+	    			
+	    			this.velocity.x = -1 * Math.abs(this.velocity.x);
+	    			updateNextPosition(this.deltaTime);
+	    		}
+	    		else if ((int) this.position.x >= wall.x + wall.width) {
+	    			
+	    			this.velocity.x = Math.abs(this.velocity.x);
+	    			updateNextPosition(this.deltaTime);
+	    		}
+				if ((int) this.position.y + diameter <= wall.y || (int) this.position.y >= wall.y + wall.height) {
+	    			
+	    			bounceY();
+	    		} //TODO: 
+    		}
+			System.out.println((this.position.x - this.radius) + " " + (this.position.y - this.radius));
+			System.out.println(x + " " + y + " " + wall.x + " " + wall.y);
+			return true;
+    	}
+    	else {
+    		this.position = this.nextpos;
+    		return false;
+    	}
     }
     
     public void bounceX() {

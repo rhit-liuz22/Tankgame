@@ -52,6 +52,7 @@ public class Game {
     }
     
     private void update(float deltaTime) {
+    	
         for (Player player : players) {
             player.update(deltaTime);
             
@@ -60,11 +61,14 @@ public class Game {
                     player.getTank().resolveWallCollision(wall);
                 }
             }
-        }
-        checkCollisions();        
+        }       
         if (checkGameOver()) {
             endGame();
         }
+        
+        checkCollisions(); 
+        
+        
     }
     
     private void checkCollisions() {
@@ -106,11 +110,8 @@ public class Game {
     }
     
     private void bulletCollisions(Tank tank) {
+    	
 		for (Bullet bullet : tank.getBullets()) {
-			
-			int bulletx = (int) bullet.nextpos.x;
-			int bullety = (int) bullet.nextpos.y;
-			int bulletradius = (int) bullet.radius;
 			
 			boolean hitwall = false;
 			
@@ -122,28 +123,9 @@ public class Game {
 				}
 				else {
 					
-					boolean collideX = Collision.isCollidedX(bulletx - bulletradius, bulletradius * 2,
-							wall.x, wall.width);
-					boolean collideY = Collision.isCollidedY(bullety - bulletradius, bulletradius * 2,
-							wall.y, wall.height);
-					
-					if (collideX && collideY) {
+					if (bullet.bounceCheck(wall)) {
 						
-						System.out.println("hitwall");
 						hitwall = true;
-						
-						if (bulletx + bulletradius < wall.x || bulletx > wall.x + wall.width) {
-							
-							bullet.bounceX();
-						}
-						if (bullety + bulletradius < wall.y || bullety > wall.y + wall.height) {
-							
-							bullet.bounceY();
-						}
-					}
-					else {
-						
-						bullet.position = bullet.nextpos;
 					}
 				}
 			}

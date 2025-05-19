@@ -77,6 +77,7 @@ public class Tank extends JPanel{
         
         for (int i = bullets.size() - 1; i >= 0; i--) {
             Bullet bullet = bullets.get(i);
+            bullet.runCalculations(deltaTime);
             bullet.update(deltaTime);
             
             if (bullet.isExpired()) {
