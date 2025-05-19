@@ -11,8 +11,12 @@ public class Tank {
     private Color color;
     private List<Bullet> bullets;
     private float shootCooldown;
-    private boolean isMoving;
+    private boolean isMovingForward;
+    private boolean isMovingBackward;
+    private boolean isRotatingLeft;
+    private boolean isRotatingRight;
     private float speed = 200f;
+    private float rotationSpeed = 3f; // radians per second
     private int health = 100;
     
     public Tank(Color color) {
@@ -24,10 +28,23 @@ public class Tank {
     }
     
     public void update(float deltaTime) {
-        if (isMoving) {
-            position = position.add(direction.mult(speed * deltaTime));
+        // Handle rotation
+        if (isRotatingLeft) {
+            direction = direction.rotate(-rotationSpeed * deltaTime);
+        }
+        if (isRotatingRight) {
+            direction = direction.rotate(rotationSpeed * deltaTime);
         }
         
+        // Handle movement
+        if (isMovingForward) {
+            position = position.add(direction.mult(speed * deltaTime));
+        }
+        if (isMovingBackward) {
+            position = position.add(direction.mult(-speed * deltaTime * 0.7f)); // Slower when moving backward
+        }
+        
+        // Update cooldown and bullets
         if (shootCooldown > 0) {
             shootCooldown -= deltaTime;
         }
@@ -128,6 +145,9 @@ public class Tank {
     public Color getColor() { return color; }
     public int getHealth() { return health; }
     public void setPosition(Vector2 position) { this.position = position; }
-    public void setDirection(Vector2 direction) { this.direction = direction; }
-    public void setMoving(boolean moving) { isMoving = moving; }
+    public void setMovingForward(boolean moving) { isMovingForward = moving; }
+    public void setMovingBackward(boolean moving) { isMovingBackward = moving; }
+    public void setRotatingLeft(boolean rotating) { isRotatingLeft = rotating; }
+    public void setRotatingRight(boolean rotating) { isRotatingRight = rotating; }
+
 }

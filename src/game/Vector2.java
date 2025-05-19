@@ -46,4 +46,13 @@ public class Vector2 {
     public float angle() {
         return (float)Math.atan2(y, x);
     }
+    
+    public Vector2 rotate(float radians) {
+        float cos = (float)Math.cos(radians);
+        float sin = (float)Math.sin(radians);
+        return new Vector2(
+            x * cos - y * sin,
+            x * sin + y * cos
+        );
+    }
 }
