@@ -1,6 +1,34 @@
 package game;
 
 public class Collision {
+	
+	// better collision detection
+	
+	public static boolean isCollidedX(int x1, int width1, int x2, int width2) {	
+		if (x1 <= x2 && x1 + width1 >= x2) {
+			
+			return true;
+		}
+		else if (x2 >= x1 && x1 <= x2 + width2) {
+			
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isCollidedY(int y1, int width1, int y2, int width2) {	
+		if (y1 <= y2 && y1 + width1 >= y2) {
+			
+			return true;
+		}
+		else if (y2 >= y1 && y1 <= y2 + width2) {
+			
+			return true;
+		}
+		return false;
+	}
+	//
+	
 	public static boolean tankWall(Tank tank, Wall wall) {
 	    float tankWidth = 30;
 	    float tankHeight = 20;

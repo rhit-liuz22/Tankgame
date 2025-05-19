@@ -6,12 +6,17 @@ import java.awt.Graphics2D;
 public class Bullet {
     Vector2 position;
     Vector2 velocity;
+    float radius = 3f;
+    
+    Vector2 nextpos;
+    
     private Color color;
     private float lifetime;
-    private float radius = 3f;
     private Tank owner;
     private int bounces = 0;
     private boolean canHitOwner = false;
+    private boolean bounceEnabled = false;
+    private int maxBounces = 0;
     
     public Bullet(Vector2 position, Vector2 direction, Color color, Tank owner) {
         this.position = position;
@@ -19,10 +24,14 @@ public class Bullet {
         this.color = color;
         this.lifetime = 2f;
         this.owner = owner;
+        
+        // TODO: temporary
+        this.maxBounces = 5;
     }
     
     public void update(float deltaTime) {
         position = position.add(velocity.mult(deltaTime));
+        
         lifetime -= deltaTime;
     }
     
@@ -42,10 +51,26 @@ public class Bullet {
                position.y < 0 || position.y > 640;
     }
     
-    public void bounce(Vector2 normal) {
-        velocity = velocity.sub(normal.mult(2 * velocity.dot(normal)));
-        bounces++;
-        canHitOwner = true;
+    public void bounceX() {
+    	
+    	System.out.println("workingx");
+    	if (this.bounceEnabled && this.bounces < this.maxBounces) {
+    		
+            velocity.x *= -1;
+            this.bounces++;
+            this.canHitOwner = true;
+    	}
+    }
+
+    public void bounceY() {
+    	
+    	System.out.println("workingy");
+    	if (this.bounceEnabled && this.bounces < this.maxBounces) {
+    		
+            velocity.y *= -1;
+            this.bounces++;
+            this.canHitOwner = true;
+    	}
     }
     
     // Getters
