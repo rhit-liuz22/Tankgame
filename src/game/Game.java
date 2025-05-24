@@ -62,7 +62,7 @@ public class Game {
         controller.update(deltaTime);
         for (PlayerSkeleton player : playersks) {
         	
-            player.runCalculations(deltaTime);
+            player.getTank().runCalculations(deltaTime);
         }
         
         handleCollisions(); 
