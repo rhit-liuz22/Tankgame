@@ -95,7 +95,7 @@ public class Game {
     						
     						bullet.bounce(wall.getTheta());
     					}
-    					else {
+    					if (bullet.getY() + bullet.getHeight() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
     						
     						bullet.bounce(wall.getTheta() + 90);
     					}
