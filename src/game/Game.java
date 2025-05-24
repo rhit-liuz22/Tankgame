@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.Timer;
 
 public class Game {
-    private List<Player> players;
     
     private ArrayList<PlayerSkeleton> playersks;
     
@@ -19,7 +18,6 @@ public class Game {
     private Controller controller;
     
     public Game() {
-        players = new ArrayList<>();
         playersks = new ArrayList<>();
         map = new GameMap(704, 640);
         initializePlayers();
@@ -64,10 +62,15 @@ public class Game {
         controller.update(deltaTime);
         for (PlayerSkeleton player : playersks) {
         	
-            player.update(deltaTime);
+            player.runCalculations(deltaTime);
         }
         
         handleCollisions(); 
+        
+        for (PlayerSkeleton player : playersks) {
+        	
+        	player.update();
+        }
     }
     
     // deal with collisions using new collision
@@ -76,15 +79,15 @@ public class Game {
     	for (PlayerSkeleton player : playersks) {
     		
     		// bullet-wall
-    		for (BulletSkeleton bullet : player.getBulletList()) {
+    		for (BulletSkeleton bullet : player.getTank().getBulletList()) {
     			
     			for (Wall wall : map.getWalls()) {
     				
     				boolean withinX = Collision.isCollidedX(bullet, wall);
-    				boolean withinY = Collision.isCollidedX(bullet, wall);
+    				boolean withinY = Collision.isCollidedY(bullet, wall);
     				if (withinX && withinY) {
     					
-    					if (withinX) {
+    					if (bullet.getX() + bullet.getWidth() < wall.getX() || bullet.getX() > wall.getX() + wall.getWidth()) {
     						
     						bullet.bounce(wall.getTheta());
     					}
@@ -105,13 +108,17 @@ public class Game {
 				
 				if (withinX && withinY) {
 					
-					if (withinX) {
+					System.out.println("colliding");
+					
+					if (tank.getX() + tank.getWidth() < wall.getX() || tank.getX() > wall.getX() + wall.getWidth()) {
 						
-						tank.setdy(0);
+						System.out.println("inx");
+						tank.setdx(0);
 					}
 					else {
 						
-						tank.setdx(0);
+						System.out.println("iny");
+						tank.setdy(0);
 					}
 				}
     		} // tank-wall
@@ -122,7 +129,7 @@ public class Game {
     }
     
     private boolean checkGameOver() {
-        for (Player player : players) {
+        for (PlayerSkeleton player : playersks) {
             if (player.getTank().getHealth() <= 0) {
                 return true;
             }

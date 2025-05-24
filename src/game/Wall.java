@@ -68,12 +68,12 @@ public class Wall implements Entity { // entity bc collision (and maybe moving w
     	this.dtheta = dtheta;
     }
 
-	public int getX() {
+	public float getX() {
 		
 		return this.x;
 	}
 	
-	public int getY() {
+	public float getY() {
 		
 		return this.y;
 	}
@@ -83,12 +83,12 @@ public class Wall implements Entity { // entity bc collision (and maybe moving w
 		return this.theta;
 	}
 	
-	public int getNextX() {
+	public float getNextX() {
 		
 		return this.x + this.dx;
 	}
 	
-	public int getNextY() {
+	public float getNextY() {
 		
 		return this.y + this.dy;
 	}

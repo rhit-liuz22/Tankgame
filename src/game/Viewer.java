@@ -85,7 +85,7 @@ public class Viewer extends JFrame {
             for (PlayerSkeleton player : game.getPlayers()) {
                 player.getTank().render(this, g2d);
                 
-                for (BulletSkeleton bullet : player.getBulletList()) {
+                for (BulletSkeleton bullet : player.getTank().getBulletList()) {
                     bullet.render(this, g2d);
                 }
             }
