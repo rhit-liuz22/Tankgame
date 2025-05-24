@@ -103,7 +103,7 @@ public class GameMap {
     public void render(Graphics2D g2d) {
         g2d.setColor(new Color(100, 100, 100));
         for (Wall wall : walls) {
-            g2d.fillRect(wall.x, wall.y, wall.width, wall.height);
+            g2d.fillRect(wall.getX(), wall.getY(), wall.getWidth(), wall.getHeight());
         }
     }
     
