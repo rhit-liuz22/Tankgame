@@ -18,46 +18,44 @@ public class Controller implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         pressedKeys.add(e.getKeyCode());
-        handleInput();
     }
     
     @Override
     public void keyReleased(KeyEvent e) {
         pressedKeys.remove(e.getKeyCode());
-        handleInput();
     }
     
     @Override
     public void keyTyped(KeyEvent e) {} // Not used
     
-    public void handleInput() {
-        for (Player player : game.getPlayers()) {
+    public void update(float deltaTime) {
+    	
+    	handleInput(deltaTime);
+    }
+    
+    public void handleInput(float deltaTime) {
+        for (PlayerSkeleton player : game.getPlayers()) {
             Controls controls = player.getControls();
-            Tank tank = player.getTank();
-            
-            tank.setMovingForward(false);
-            tank.setMovingBackward(false);
-            tank.setRotatingLeft(false);
-            tank.setRotatingRight(false);
+            TankSkeleton tank = player.getTank();
             
             // Handle movement
             if (pressedKeys.contains(controls.up)) {
-                tank.setMovingForward(true);
+                tank.moveForward(deltaTime);
             }
             if (pressedKeys.contains(controls.down)) {
-                tank.setMovingBackward(true);
+                tank.moveBackward(deltaTime);
             }
             
             // Handle rotation
             if (pressedKeys.contains(controls.left)) {
-                tank.setRotatingLeft(true);
+                tank.rotateCCW(deltaTime);
             }
             if (pressedKeys.contains(controls.right)) {
-                tank.setRotatingRight(true);
+                tank.rotateCW(deltaTime);
             }
             
             if (pressedKeys.contains(controls.shoot)) {
-                tank.shoot();
+                player.getTank().shootBullet();
             }
         }
     }

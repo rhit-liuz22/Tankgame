@@ -49,10 +49,10 @@ public class Viewer extends JFrame {
         String winner = "Game Over! ";
         int maxScore = -1;
         
-        for (Player player : game.getPlayers()) {
+        for (PlayerSkeleton player : game.getPlayers()) {
             if (player.getScore() > maxScore) {
                 maxScore = player.getScore();
-                winner = "Player " + player.getId() + " wins!";
+                winner = "Player " + player.getID() + " wins!";
             }
         }
         
@@ -82,11 +82,11 @@ public class Viewer extends JFrame {
             
             game.getMap().render(g2d);
             
-            for (Player player : game.getPlayers()) {
-                player.getTank().render(g2d);
+            for (PlayerSkeleton player : game.getPlayers()) {
+                player.getTank().render(this, g2d);
                 
-                for (Bullet bullet : player.getTank().getBullets()) {
-                    bullet.render(g2d);
+                for (BulletSkeleton bullet : player.getTank().getBulletList()) {
+                    bullet.render(this, g2d);
                 }
             }
             
@@ -95,8 +95,8 @@ public class Viewer extends JFrame {
         
         private void drawHealthBars(Graphics2D g2d) {
             int yOffset = 10;
-            for (Player player : game.getPlayers()) {
-                Tank tank = player.getTank();
+            for (PlayerSkeleton player : game.getPlayers()) {
+                TankSkeleton tank = player.getTank();
                 int width = 100;
                 int height = 10;
                 int x = 20;
@@ -106,7 +106,7 @@ public class Viewer extends JFrame {
                 g2d.fillRect(x, y, width, height);
 
                 float healthPercent = tank.getHealth() / 100f;
-                g2d.setColor(tank.getColor());
+                g2d.setColor(player.getColor());
                 g2d.fillRect(x, y, (int)(width * healthPercent), height);
 
                 g2d.setColor(Color.BLACK);
@@ -133,9 +133,9 @@ public class Viewer extends JFrame {
             
             playerScoreLabels = new JLabel[game.getPlayers().size()];
             for (int i = 0; i < playerScoreLabels.length; i++) {
-                Player player = game.getPlayers().get(i);
-                playerScoreLabels[i] = new JLabel("P" + player.getId() + ": 0", SwingConstants.CENTER);
-                playerScoreLabels[i].setForeground(player.getTank().getColor());
+                PlayerSkeleton player = game.getPlayers().get(i);
+                playerScoreLabels[i] = new JLabel("P" + player.getID() + ": 0", SwingConstants.CENTER);
+                playerScoreLabels[i].setForeground(player.getColor());
                 playerScoreLabels[i].setFont(new Font("Arial", Font.BOLD, 24));
                 add(playerScoreLabels[i]);
             }
@@ -143,8 +143,8 @@ public class Viewer extends JFrame {
         
         public void updateScores() {
             for (int i = 0; i < playerScoreLabels.length; i++) {
-                Player player = game.getPlayers().get(i);
-                playerScoreLabels[i].setText("P" + player.getId() + ": " + player.getScore());
+                PlayerSkeleton player = game.getPlayers().get(i);
+                playerScoreLabels[i].setText("P" + player.getID() + ": " + player.getScore());
             }
         }
     }

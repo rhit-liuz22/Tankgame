@@ -4,15 +4,19 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.Timer;
 
+import game.Abilities.*;
+
 public class Game {
-    private List<Player> players;
+    
+    private ArrayList<PlayerSkeleton> players;
+    
     private GameMap map;
     private Viewer viewer;
     private Timer gameTimer;
     private boolean gameRunning;
+    private Controller controller;
     
     public Game() {
         players = new ArrayList<>();
@@ -21,9 +25,9 @@ public class Game {
     }
     
     private void initializePlayers() {
-        players.add(new Player(1, new Color(255, 50, 50), 
+        players.add(new PlayerSkeleton(1, new Color(255, 50, 50), 
             new Controls(87, 65, 83, 68, 32))); // WASD + Space
-        players.add(new Player(2, new Color(50, 50, 255),
+        players.add(new PlayerSkeleton(2, new Color(50, 50, 255),
             new Controls(38, 37, 40, 39, 10))); // Arrows + Enter
     }
     
@@ -45,95 +49,107 @@ public class Game {
     }
     
     private void spawnPlayers() {
-        for (Player player : players) {
-            Vector2 spawn = map.getRandomSpawnPoint();
-            player.getTank().setPosition(spawn.copy());
-        }
+    	
+    	players.get(0).spawnTank(50, 50, 0);
+    	players.get(1).spawnTank(500, 500, 180);
     }
     
     private void update(float deltaTime) {
-    	
-        for (Player player : players) {
-            player.update(deltaTime);
-            
-            for (Wall wall : map.getWalls()) {
-                if (Collision.tankWall(player.getTank(), wall)) {
-                    player.getTank().resolveWallCollision(wall);
-                }
-            }
-        }       
+
         if (checkGameOver()) {
             endGame();
         }
+    	
+        controller.update(deltaTime);
+        for (PlayerSkeleton player : players) {
+        	
+            player.getTank().runCalculations(deltaTime);
+        }
         
-        checkCollisions(); 
+        handleCollisions(); 
         
-        
+        for (PlayerSkeleton player : players) {
+        	
+        	player.update();
+        }
     }
     
-    private void checkCollisions() {
+    // deal with collisions using new collision
+    public void handleCollisions() {
     	
-    	for (Player player : players) {
+    	ArrayList<BulletSkeleton> allBullets = new ArrayList<>();
+    	for (PlayerSkeleton player : players) {
     		
-    		bulletCollisions(player.getTank());
-    	}
-//        for (Player player : players) {
-//            List<Bullet> bullets = player.getTank().getBullets();
-//            for (int i = bullets.size() - 1; i >= 0; i--) {
-//                Bullet bullet = bullets.get(i);
-//                
-//                for (Wall wall : map.getWalls()) {
-//                    if (Collision.bulletWall(bullet, wall)) {
-//                        Vector2 normal = Collision.getWallNormal(bullet, wall);
-//                        bullet.bounce(normal);
-//                        break;
-//                    }
-//                }
-//                
-//                for (Player otherPlayer : players) {
-//                    Tank otherTank = otherPlayer.getTank();
-//                    
-//                    boolean shouldHit = (bullet.getOwner() != otherTank) || 
-//                                      (bullet.canHitOwner());
-//                    
-//                    if (shouldHit && Collision.bulletTank(bullet, otherTank)) {
-//                        bullets.remove(i);
-//                        otherTank.takeDamage(25);
-//                        if (bullet.getOwner() != otherTank) {
-//                            player.incrementScore();
-//                        }
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-    }
-    
-    private void bulletCollisions(Tank tank) {
-    	
-		for (Bullet bullet : tank.getBullets()) {
-			
-			boolean hitwall = false;
-			
-			for (Wall wall : map.getWalls()) {
+    		// bullet-wall
+    		for (BulletSkeleton bullet : player.getTank().getBulletList()) {
+    			
+    			allBullets.add(bullet);
+    			
+    			for (Wall wall : map.getWalls()) {
+    				
+    				boolean withinX = Collision.isCollidedX(bullet, wall);
+    				boolean withinY = Collision.isCollidedY(bullet, wall);
+    				if (withinX && withinY) {
+    					
+    					if (bullet.getX() + bullet.getWidth() < wall.getX() || bullet.getX() > wall.getX() + wall.getWidth()) {
+    						
+    						bullet.bounce(wall.getTheta());
+    					}
+    					if (bullet.getY() + bullet.getHeight() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
+    						
+    						bullet.bounce(wall.getTheta() + 90);
+    					}
+    				}
+    			}
+    		} // bullet-wall
+    		
+    		//tank-wall
+    		for (Wall wall : map.getWalls()) {
+    			
+    			TankSkeleton tank = player.getTank();
+    			boolean withinX = Collision.isCollidedX(tank, wall);
+				boolean withinY = Collision.isCollidedY(tank, wall);
 				
-				if (hitwall) {
-					System.out.print("break");
-					break;
-				}
-				else {
+				if (withinX && withinY) {
 					
-					if (bullet.bounceCheck(wall)) {
+					if (tank.getX() + tank.getWidth() < wall.getX() || tank.getX() > wall.getX() + wall.getWidth()) {
 						
-						hitwall = true;
+						tank.setdx(0);
+					}
+					else {
+						
+						tank.setdy(0);
 					}
 				}
-			}
-		}
+    		} // tank-wall#
+    	}
+    	
+    	//tank-bullet
+    	for (BulletSkeleton bullet : allBullets) {
+    		
+    		for (PlayerSkeleton player : players) {
+    			
+    			TankSkeleton tank = player.getTank();
+    			boolean withinX = Collision.isCollidedX(tank, bullet);
+				boolean withinY = Collision.isCollidedY(tank, bullet);
+				
+				if (withinX && withinY) {
+					
+					if (tank == bullet.getOwner()) {
+						if (!bullet.getCanHitOwner()) {
+							
+							break;
+						}
+					}
+					tank.addHealth(-bullet.getDamage());
+					bullet.setExpired();
+				}
+    		}
+    	}
     }
     
     private boolean checkGameOver() {
-        for (Player player : players) {
+        for (PlayerSkeleton player : players) {
             if (player.getTank().getHealth() <= 0) {
                 return true;
             }
@@ -148,8 +164,8 @@ public class Game {
     }
     
     // Getters and setters
-    public List<Player> getPlayers() { return players; }
+    public ArrayList<PlayerSkeleton> getPlayers() { return players; }
     public GameMap getMap() { return map; }
     public void setViewer(Viewer viewer) { this.viewer = viewer; }
-    public void setController(Controller controller) { }
+    public void setController(Controller controller) { this.controller = controller;}
 }
