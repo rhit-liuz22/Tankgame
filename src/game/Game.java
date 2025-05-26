@@ -66,8 +66,6 @@ public class Game {
     	
     	players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
-    	
-    	players.get(0).getTank().addAbility(new ImpactBullets());
     }
     
     private void update(float deltaTime) {
