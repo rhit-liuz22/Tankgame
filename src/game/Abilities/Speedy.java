@@ -44,4 +44,9 @@ public class Speedy implements Ability {
 		
 		this.toggle = true;
 	}
+	
+	public String getAbilityDescription() {
+		
+		return "";
+	}
 }

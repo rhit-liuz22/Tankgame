@@ -9,4 +9,6 @@ public interface Ability {
 	void toggleTrue();
 	
 	void toggleFalse();
+	
+	String getAbilityDescription();
 }

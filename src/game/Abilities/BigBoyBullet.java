@@ -42,4 +42,9 @@ public class BigBoyBullet implements Ability {
 		
 		this.toggle = true;
 	}
+	
+	public String getAbilityDescription() {
+		
+		return "";
+	}
 }

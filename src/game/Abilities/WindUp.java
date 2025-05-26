@@ -43,4 +43,9 @@ public class WindUp implements Ability {
 		
 		this.toggle = true;
 	}
+	
+	public String getAbilityDescription() {
+		
+		return "";
+	}
 }
