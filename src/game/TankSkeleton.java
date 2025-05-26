@@ -41,7 +41,7 @@ public class TankSkeleton implements Entity {
 	
 	private ArrayList<BulletSkeleton> bullets;
 	private int shootCD = 0; // shooting cooldown (how many frames left until shoot enabled)
-	private int reloadCD = 60; // once per second
+	private int reloadCD = 0; // once per second
 	private boolean canShoot = true; // what if we add stuns so shootCD isn't the only thing stopping shooting
 	private int bulletradius = 3; // default
 	private int bulletdamage = 30;
