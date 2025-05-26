@@ -19,11 +19,18 @@ public class Game {
     private Timer gameTimer;
     private boolean gameRunning;
     private Controller controller;
+    private ArrayList<Ability> allAbilities;
     
     public Game() {
         players = new ArrayList<>();
         map = new GameMap(704, 640);
         initializePlayers();
+        
+        // all existing abilities
+        allAbilities = new ArrayList<>();
+        allAbilities.add(new WindUp());
+        allAbilities.add(new BigBoyBullet());
+        allAbilities.add(new Speedy());
     }
     
     private void initializePlayers() {
@@ -79,11 +86,26 @@ public class Game {
     private void nextRound() {
     	gameRunning = false;
     	
+    	ArrayList<Ability> toShow = new ArrayList<>();
+    	for (int i = 0; i < 3; i++) {
+    		
+    		int index = i; // make random if we have more abilities
+    		toShow.add(allAbilities.get(index));
+    	}
+    	for (Ability ability : toShow) {
+    		
+    		System.out.println(ability.getAbilityDescription() + " #" + String.valueOf(toShow.indexOf(ability) + 1));
+    	}
     	System.out.println("Choose a Power-Up (Numbers 1-3)");
     	@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int powerUpSelection = scanner.nextInt();
 		System.out.println("You chose Power-Up #"+ powerUpSelection);
+		for (PlayerSkeleton player : players) {
+            if (player.getTank().getHealth() <= 0) {
+                player.getTank().addAbility(toShow.get(powerUpSelection - 1));
+            }
+        }
 		
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
@@ -93,9 +115,6 @@ public class Game {
     	
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
-    	
-    	tank1.addAbility(new Speedy()); //TODO TEMPORARY
-    	tank2.addAbility(new BigBoyBullet());
     	
     	
     	
