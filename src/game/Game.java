@@ -36,6 +36,7 @@ public class Game {
         allAbilities.add(new Overclock());
         allAbilities.add(new Trickster());
         allAbilities.add(new ImpactBullets());
+        allAbilities.add(new Grow());
     }
     
     private void initializePlayers() {

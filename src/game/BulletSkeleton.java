@@ -161,9 +161,19 @@ public class BulletSkeleton implements Entity {
 		return this.x;
 	}
 	
+	public void adddx(float dx) {
+		
+		this.dx += dx;
+	}
+	
 	public float getY() {
 		
 		return this.y;
+	}
+	
+	public void adddy(float dy) {
+		
+		this.dy += dy;
 	}
 	
 	public float getNextX() {
@@ -174,6 +184,11 @@ public class BulletSkeleton implements Entity {
 	public float getNextY() {
 		
 		return this.y + this.dy;
+	}
+	
+	public float getRadius() {
+		
+		return this.radius;
 	}
 	
 	public int getWidth() {
