@@ -26,8 +26,6 @@ public class BulletSkeleton implements Entity {
 	private int framesAlive = 0;
 	private boolean expired = false;
 	
-	private boolean instant = false;
-	
 	private int damage;
 	private int radius; 
 	private int width;
@@ -217,8 +215,8 @@ public class BulletSkeleton implements Entity {
 		this.damage = dmg;
 	}
 	
-	public void setInstant() {
+	public float getVelocity() {
 		
-		this.instant = true;
+		return this.velocity;
 	}
 }
