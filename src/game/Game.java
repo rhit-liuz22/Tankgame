@@ -80,7 +80,8 @@ public class Game {
     	gameRunning = false;
     	
     	System.out.println("Choose a Power-Up (Numbers 1-3)");
-    	Scanner scanner = new Scanner(System.in);
+    	@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
 		int powerUpSelection = scanner.nextInt();
 		System.out.println("You chose Power-Up #"+ powerUpSelection);
 		
@@ -92,6 +93,8 @@ public class Game {
     	
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
+    	
+    	
     	
     	gameRunning = true;
 	}
