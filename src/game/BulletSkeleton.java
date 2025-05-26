@@ -44,7 +44,14 @@ public class BulletSkeleton implements Entity {
 		this.bounceEnabled = bounceEnabled;
 		this.maxBounces = maxBounces;
 		
-		this.radius = radius;
+		if (radius < 1) {
+			
+			this.radius = 1;
+		}
+		else {
+
+			this.radius = radius;	
+		}
 		this.width = this.radius * 2;
 		this.height = this.radius * 2;
 		this.damage = damage;
@@ -211,6 +218,10 @@ public class BulletSkeleton implements Entity {
 	}
 	
 	public void setRadius(int radius) {
+		
+		if (radius < 1) {
+			return;
+		}
 		
 		this.radius = radius;
 	}

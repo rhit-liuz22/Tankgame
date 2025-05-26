@@ -407,6 +407,16 @@ public class TankSkeleton implements Entity {
 		this.bulletspeed = speed;
 	}
 	
+	public int getBulletRadius() {
+		
+		return this.bulletradius;
+	}
+	
+	public void setBulletRadius(int rad) {
+		
+		this.bulletradius = rad;
+	}
+	
 	public Color getColor() {
 		
 		return this.color;
