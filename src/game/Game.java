@@ -94,7 +94,8 @@ public class Game {
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
     	
-    	tank1.addAbility(new WindUp());
+    	tank1.addAbility(new Speedy()); //TODO TEMPORARY
+    	tank2.addAbility(new BigBoyBullet());
     	
     	
     	
