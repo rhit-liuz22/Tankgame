@@ -37,17 +37,17 @@ public class Game {
     
     private void initializePlayers() {
         players.add(new PlayerSkeleton(1, new Color(255, 50, 50), 
-            new Controls(87, 65, 83, 68, 32))); // WASD + Space
+            new Controls(87, 65, 83, 68, 32, 69))); // WASD + Space + E
         players.add(new PlayerSkeleton(2, new Color(50, 50, 255),
-            new Controls(38, 37, 40, 39, 10))); // Arrows + Enter
+            new Controls(38, 37, 40, 39, 10, 161))); // Arrows + Enter + RShift
     }
     
     public void startGame() {
         gameRunning = true;
         map.generate();
         spawnPlayers();
-        gameTimer = new Timer(16, new ActionListener() {
-            float deltaTime = 16/1000f;
+        gameTimer = new Timer(8, new ActionListener() {
+            float deltaTime = 8/1000f;
             
             @Override
             public void actionPerformed(ActionEvent e) {

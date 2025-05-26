@@ -49,6 +49,14 @@ public class TankSkeleton implements Entity {
 	private int bulletdamage = 30;
 	private int bulletBounces = 3; 
 	
+	private int dashCD = 0;
+	private int dashFrame = 0;
+	private int dashReloadCD = 300; // once per 5 seconds
+	private float dashspeed = 10;
+	private float dashvel;
+	private float dashtheta;
+	private boolean dashBackward;
+	
 	private boolean canRender;
 	private boolean canControl;
 	
@@ -90,10 +98,6 @@ public class TankSkeleton implements Entity {
 	
 	public void runCalculations(float deltaTime) {
 		
-		if (this.shootCD > 0) {
-			this.shootCD -= 1;
-		}
-		
 		if (this.shootCD <= 0) { // ADD CONDITIONS AS NECESSARY (ex: stunning ability)
 			
 			this.canShoot = true;
@@ -124,12 +128,15 @@ public class TankSkeleton implements Entity {
 	}
 	
 	private void updateMovement() {
+		
 		this.x += this.dx;
 		this.y += this.dy;
 		this.theta += this.dtheta;
 		this.dx = 0;
 		this.dy = 0;
 		this.dtheta = 0;
+		
+		dashing();
 	}
 	
 	private void updateHealth() {
@@ -143,6 +150,11 @@ public class TankSkeleton implements Entity {
 		if (this.shootCD > 0) {
 			
 			this.shootCD -= 1;
+		}
+		
+		if (this.dashCD > 0) {
+			
+			this.dashCD -= 1;
 		}
 	}
 	
@@ -172,14 +184,18 @@ public class TankSkeleton implements Entity {
 	
 	public void moveForward(float deltaTime) {
 		
-		this.dx += this.tvel * Math.cos(this.theta * Math.PI / 180) * deltaTime;
-		this.dy += this.tvel * Math.sin(this.theta * Math.PI / 180) * deltaTime;
+		this.dx += this.tvel * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
+		this.dy += this.tvel * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
+		
+		this.dashBackward = false;
 	}
 	
 	public void moveBackward(float deltaTime) {
 		
-		this.dx -= this.backwardtvel * Math.cos(this.theta * Math.PI / 180) * deltaTime;
-		this.dy -= this.backwardtvel * Math.sin(this.theta * Math.PI / 180) * deltaTime;
+		this.dx -= this.backwardtvel * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
+		this.dy -= this.backwardtvel * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
+		
+		this.dashBackward = true;
 	}
 	
 	// POSITIVE ANGLE IS CLOCKWISE BECAUSE POSITIVE Y IS DOWNWARDS
@@ -214,7 +230,7 @@ public class TankSkeleton implements Entity {
         g2d.drawRect((int) this.x, (int) this.y, this.WIDTH, this.HEIGHT); // hitbox
 		
 		g2d.translate(getMiddleX(), getMiddleY());
-        g2d.rotate(this.theta * Math.PI / 180);
+        g2d.rotate(this.theta * Math.PI / 180f);
         
         // draw image
         g2d.drawImage(this.tankSprite, -this.WIDTH / 2, -this.HEIGHT / 2,
@@ -265,6 +281,35 @@ public class TankSkeleton implements Entity {
         			this.bulletspeed + this.tvel, true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
+    	}
+    }
+    
+    public void dash() {
+    	
+    	if (dashCD <= 0) {
+    		
+    		this.dashvel = this.dashspeed;
+    		this.dashtheta = this.theta;
+    		if (this.dashBackward) {
+    			this.dashtheta += 180;
+    		}
+    		this.dashCD = this.dashReloadCD;
+    		this.dashFrame = 0;
+    	}
+    	else {
+    		
+    		return;
+    	}
+    }
+    
+    private void dashing() {
+    	
+    	if (this.dashFrame <= 15) {
+    		
+    		this.dx += this.dashvel * Math.cos(this.dashtheta * Math.PI / 180f);
+    		this.dy += this.dashvel * Math.sin(this.dashtheta * Math.PI / 180f);
+    		this.dashvel *= .9f;
+    		this.dashFrame += 1;
     	}
     }
     
@@ -380,12 +425,12 @@ public class TankSkeleton implements Entity {
 	
 	public int getBulletX() {
 		
-		return getMiddleX() + (int) (16*Math.cos(this.theta * Math.PI / 180)) - bulletradius;
+		return getMiddleX() + (int) (16*Math.cos(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
 	public int getBulletY() {
 		
-		return getMiddleY() + (int) (16*Math.sin(this.theta * Math.PI / 180)) - bulletradius;
+		return getMiddleY() + (int) (16*Math.sin(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
 	public int getBulletBounces() {

@@ -88,8 +88,8 @@ public class BulletSkeleton implements Entity {
 	
 	public void move(float deltaTime) {
 		
-		this.dx += this.velocity * Math.cos(this.theta * Math.PI / 180) * deltaTime;
-		this.dy += this.velocity * Math.sin(this.theta * Math.PI / 180) * deltaTime;
+		this.dx += this.velocity * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
+		this.dy += this.velocity * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
 	}
 	
 	public void addVelocity(float dv) { // for changing speed while alive
@@ -123,7 +123,7 @@ public class BulletSkeleton implements Entity {
 		java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
 		
 		g2d.translate(this.x + this.width/2, this.y + this.height/2);
-        g2d.rotate(this.theta * Math.PI / 180);
+        g2d.rotate(this.theta * Math.PI / 180f);
         
         g2d.setColor(color);
         g2d.fillOval(-this.width/2, -this.height/2, this.width, this.height);

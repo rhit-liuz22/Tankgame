@@ -57,6 +57,10 @@ public class Controller implements KeyListener {
             if (pressedKeys.contains(controls.shoot)) {
                 player.getTank().shootBullet();
             }
+
+            if (pressedKeys.contains(controls.dash)) {
+                player.getTank().dash();
+            }
         }
     }
     

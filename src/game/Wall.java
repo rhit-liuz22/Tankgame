@@ -41,7 +41,7 @@ public class Wall implements Entity { // entity bc collision (and maybe moving w
 		java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
 
         g2d.translate(this.x, this.y);
-        g2d.rotate(this.theta * Math.PI / 180);
+        g2d.rotate(this.theta * Math.PI / 180f);
         
         // draw image
         g2d.setColor(this.color);
