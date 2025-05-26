@@ -59,6 +59,11 @@ public class Goliath implements Ability{
 		this.toggle = true;
 	}
 	
+	public void resetCD() {
+		
+		this.cd = resetCD;
+	}
+	
 	public String getAbilityDescription() {
 		
 		return "Goliath - N/A, increased max health and health regeneration";

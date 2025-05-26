@@ -33,6 +33,9 @@ public class Game {
         allAbilities.add(new BigBoyBullet());
         allAbilities.add(new Speedy());
         allAbilities.add(new Goliath());
+        allAbilities.add(new Overclock());
+        allAbilities.add(new Trickster());
+        allAbilities.add(new ImpactBullets());
     }
     
     private void initializePlayers() {
@@ -63,6 +66,8 @@ public class Game {
     	
     	players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
+    	
+    	players.get(0).getTank().addAbility(new ImpactBullets());
     }
     
     private void update(float deltaTime) {
@@ -100,6 +105,7 @@ public class Game {
     			
     			index = (int) (Math.random() * allAbilities.size());
     		}
+    		System.out.println(index);
     		toShow.add(allAbilities.get(index));
     	}
     	for (Ability ability : toShow) {
@@ -124,6 +130,8 @@ public class Game {
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
     	
+    	tank1.resetAllCooldowns();
+    	tank2.resetAllCooldowns();
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
     	

@@ -53,6 +53,11 @@ public class Speedy implements Ability {
 		this.toggle = true;
 	}
 	
+	public void resetCD() {
+		
+		return;
+	}
+	
 	public String getAbilityDescription() {
 		
 		return "Speedy - smaller bullet size and decreased damage, faster tank speed and bullet speed and reload time";

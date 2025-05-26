@@ -169,6 +169,17 @@ public class TankSkeleton implements Entity {
 		}
 	}
 	
+	public void resetAllCooldowns() {
+		
+		this.shootCD = 0;
+		this.dashCD = 0;
+		this.dashFrame = 0;
+		for (Ability ability : abilities) {
+			
+			ability.resetCD();
+		}
+	}
+	
 	public void runAbilities() {
 		
 		for (Ability ability : abilities) {
@@ -281,8 +292,8 @@ public class TankSkeleton implements Entity {
     		this.shootCD = (int) this.reloadCD;
     		
     		this.bulletmomentum += this.dashvel * this.dashmomentummodifier;
-        	BulletSkeleton bullet = new BulletSkeleton(this, (int) getBulletX(), (int) getBulletY(), this.theta,
-        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, (int) bulletradius, (int) bulletdamage, color);
+        	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
+        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
@@ -304,6 +315,7 @@ public class TankSkeleton implements Entity {
     		
     		return;
     	}
+    	
     }
     
     private void dashing() {
@@ -532,5 +544,37 @@ public class TankSkeleton implements Entity {
 	
 	public void setHealth(float health) {
 		this.hp = health;
+	}
+	
+	public boolean isDashing() {
+		
+		if (this.dashFrame <= 15) {
+			
+			return true;
+		}
+		else {
+			
+			return false;
+		}
+	}
+	
+	public float getDashCD() {
+		
+		return this.dashReloadCD;
+	}
+	
+	public void setDashCD(float cd) {
+		
+		this.dashReloadCD = cd;
+	}
+	
+	public float getDashSpeed() {
+		
+		return this.dashspeed;
+	}
+	
+	public void setDashSpeed(float speed) {
+		
+		this.dashspeed = speed;
 	}
 }

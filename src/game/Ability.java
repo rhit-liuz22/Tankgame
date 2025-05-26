@@ -12,5 +12,7 @@ public interface Ability {
 	
 	void toggleFalse();
 	
+	void resetCD();
+	
 	String getAbilityDescription();	
 }

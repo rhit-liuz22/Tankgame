@@ -3,19 +3,20 @@ import game.Ability;
 import game.BulletSkeleton;
 import game.TankSkeleton;
 
-public class WindUp implements Ability{
+public class Trickster implements Ability {
 	
 	boolean toggle;
 	
-	public WindUp() {
+	public Trickster() {
 		
 		this.toggle = false;
 	}
 	
-	public WindUp copy() {
+	public Trickster copy() {
 		
-		return new WindUp();
+		return new Trickster();
 	}
+
 
 	public void modifyTank(TankSkeleton tank){
 		
@@ -24,18 +25,21 @@ public class WindUp implements Ability{
 			return;
 		}
 		
-		//reduce movespeed and reload; increase damage and bullet speed
-		tank.setVelocity(tank.getVelocity() * .8f, tank.getBackVelocity() * .8f);
+		// increase times bouncing
+		tank.setBulletBounces(tank.getBulletBounces() + 2);
 		
-		tank.setReloadCD(tank.getReloadCD() * 1.2f);
-		
-		tank.setBulletDamage(tank.getBulletDamage() * 1.5f);
-		
-		tank.setBulletSpeed(tank.getBulletSpeed() * 1.5f);
+		// set max bounces
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {
 
+		// increased bullet damage and speed upon each bounce
+		
+		if (bullet.isBouncing()) {
+			
+			bullet.addDamage(bullet.getDamage() * 0.2f);
+			bullet.addVelocity(bullet.getVelocity() * 0.2f);
+		}
 		return;
 	}
 	
@@ -56,6 +60,6 @@ public class WindUp implements Ability{
 	
 	public String getAbilityDescription() {
 		
-		return "Wind Up - slower tank speed and increased reload time, increased damage and bullet speed";
+		return "Trickster - N/A, increase bullet bounces and increase (bullet damage and speed; every bounce)";
 	}
 }

@@ -10,6 +10,7 @@ public class BulletSkeleton implements Entity {
 	private float x, y;
 	private float theta;
 	
+	private float initialvelocity;
 	private float velocity; 
 	
 	// next frame
@@ -20,29 +21,33 @@ public class BulletSkeleton implements Entity {
 	private boolean bounceEnabled;
 	private int maxBounces;
 	private int numBounces;
+	private boolean bounceFrame;
 	
 	private TankSkeleton owner;
 	private boolean canHitOwner;
 	private int framesAlive = 0;
 	private boolean expired = false;
 	
-	private int damage;
-	private int radius; 
+	private float initialdamage;
+	private float damage;
+	private float radius; 
 	private int width;
 	private int height;
 	private Color color;
 	
-	public BulletSkeleton(TankSkeleton owner, int x, int y, float theta, float velocity,
-			boolean bounceEnabled, int maxBounces, int radius, int damage, Color color) {
+	public BulletSkeleton(TankSkeleton owner, float x, float y, float theta, float velocity,
+			boolean bounceEnabled, int maxBounces, float radius, float damage, Color color) {
 		
 		this.owner = owner;
 		this.x = x;
 		this.y = y;
 		this.theta = theta;
-		this.velocity = velocity;
+		this.initialvelocity = velocity;
+		this.velocity = this.initialvelocity;
 		
 		this.bounceEnabled = bounceEnabled;
 		this.maxBounces = maxBounces;
+		this.bounceFrame = false;
 		
 		if (radius < 1) {
 			
@@ -52,9 +57,10 @@ public class BulletSkeleton implements Entity {
 
 			this.radius = radius;	
 		}
-		this.width = this.radius * 2;
-		this.height = this.radius * 2;
-		this.damage = damage;
+		this.width = (int) this.radius * 2;
+		this.height = (int) this.radius * 2;
+		this.initialdamage = damage;
+		this.damage = this.initialdamage;
 		this.color = color;
 		
 		this.canHitOwner = false;
@@ -64,10 +70,10 @@ public class BulletSkeleton implements Entity {
 		
 		this.framesAlive += 1;
 		preventSelfHit();
-		updatePosition();
+		updateState();
 	}
 	
-	public void updatePosition() {
+	public void updateState() {
 		
 		this.x += this.dx;
 		this.y += this.dy;
@@ -76,6 +82,9 @@ public class BulletSkeleton implements Entity {
 		this.dx = 0;
 		this.dy = 0;
 		this.dtheta = 0;
+		
+		this.width = (int) this.radius * 2;
+		this.height = (int) this.radius * 2;
 	}
 	
 	public void preventSelfHit() {
@@ -88,6 +97,8 @@ public class BulletSkeleton implements Entity {
 	
 	public void move(float deltaTime) {
 		
+		this.bounceFrame = false;
+		
 		this.dx += this.velocity * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
 		this.dy += this.velocity * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
 	}
@@ -97,7 +108,7 @@ public class BulletSkeleton implements Entity {
 		this.velocity += dv;
 	}
 	
-	public void addDamage(int dmg) { // for interactions that increase damage while alive
+	public void addDamage(float dmg) { // for interactions that increase damage while alive
 		
 		this.damage += dmg;
 	}
@@ -111,8 +122,16 @@ public class BulletSkeleton implements Entity {
 			this.numBounces++;
 			
 			this.canHitOwner = true;
+			
+			this.bounceFrame = true;
+			
 		}
 		else {
+			
+			if (this.numBounces == this.maxBounces && this.maxBounces > 0) {
+				
+				this.bounceFrame = true;
+			}
 			
 			this.expired = true;
 		}
@@ -217,7 +236,7 @@ public class BulletSkeleton implements Entity {
 		return this.owner;
 	}
 	
-	public void setRadius(int radius) {
+	public void setRadius(float radius) {
 		
 		if (radius < 1) {
 			return;
@@ -226,12 +245,12 @@ public class BulletSkeleton implements Entity {
 		this.radius = radius;
 	}
 	
-	public int getDamage() {
+	public float getDamage() {
 		
 		return this.damage;
 	}
 	
-	public void setDamage(int dmg) {
+	public void setDamage(float dmg) {
 		
 		this.damage = dmg;
 	}
@@ -244,5 +263,30 @@ public class BulletSkeleton implements Entity {
 	public void setVelocity(float vel) {
 		
 		this.velocity = vel;
+	}
+	
+	public int getNumBounces() {
+		
+		return this.numBounces;
+	}
+	
+	public int getMaxBounces() {
+		
+		return this.maxBounces;
+	}
+	
+	public float getInitialDamage() {
+		
+		return this.initialdamage;
+	}
+	
+	public float getInitialVelocity() {
+		
+		return this.initialvelocity;
+	}
+	
+	public boolean isBouncing() {
+		
+		return this.bounceFrame;
 	}
 }

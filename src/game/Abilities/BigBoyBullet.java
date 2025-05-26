@@ -51,6 +51,11 @@ public class BigBoyBullet implements Ability {
 		this.toggle = true;
 	}
 	
+	public void resetCD() {
+		
+		return;
+	}
+	
 	public String getAbilityDescription() {
 		
 		return "Big Boy Bullet - slower bullet speed, increased bullet damage and size";
