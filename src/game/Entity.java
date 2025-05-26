@@ -21,4 +21,8 @@ public interface Entity {
 	int getWidth();
 	
 	int getHeight();
+	
+	float getTheta();
+	
+	float getVelocity();
 }

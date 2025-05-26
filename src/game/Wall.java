@@ -10,6 +10,7 @@ public class Wall implements Entity { // entity bc collision (and maybe moving w
     private float dtheta;
     public int dx = 0; // default is static (does not move)
     public int dy = 0;
+    public float vel = 0; // entity
     public Color color = Color.BLACK;
     
     public Wall(int x, int y, int width, int height) {
@@ -81,6 +82,21 @@ public class Wall implements Entity { // entity bc collision (and maybe moving w
 	public float getTheta() {
 		
 		return this.theta;
+	}
+	
+	public void setTheta(float theta) {
+		
+		this.theta = theta;
+	}
+	
+	public float getVelocity() {
+		
+		return this.vel;
+	}
+	
+	public void setVelocity(float vel) {
+		
+		this.vel = vel;
 	}
 	
 	public float getNextX() {
