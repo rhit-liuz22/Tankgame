@@ -94,6 +94,8 @@ public class Game {
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
     	
+    	tank1.addAbility(new WindUp());
+    	
     	
     	
     	gameRunning = true;

@@ -162,6 +162,8 @@ public class TankSkeleton implements Entity {
 				
 				ability.modifyBullet(bullet);
 			}
+			
+			ability.toggleTrue();
 		}
 	}
 	
@@ -391,6 +393,16 @@ public class TankSkeleton implements Entity {
 	public void addAbility(Ability ability) {
 		
 		this.abilities.add(ability);
+	}
+	
+	public int getReloadCD() {
+		
+		return this.reloadCD;
+	}
+	
+	public void setReloadCD(int cd) {
+		
+		this.reloadCD = cd;
 	}
 	
 	public boolean getRender() {

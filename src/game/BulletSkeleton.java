@@ -219,4 +219,9 @@ public class BulletSkeleton implements Entity {
 		
 		return this.velocity;
 	}
+	
+	public void setVelocity(float vel) {
+		
+		this.velocity = vel;
+	}
 }

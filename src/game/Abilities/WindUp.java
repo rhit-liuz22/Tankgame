@@ -4,8 +4,20 @@ import game.BulletSkeleton;
 import game.TankSkeleton;
 
 public class WindUp implements Ability {
+	
+	boolean toggle;
+	
+	public WindUp() {
+		
+		this.toggle = false;
+	}
 
 	public void modifyTank(TankSkeleton tank){
+		
+		if (this.toggle) {
+			
+			return;
+		}
 		
 		//reduce movespeed
 		tank.setVelocity(tank.getVelocity() * .8f);
@@ -16,8 +28,23 @@ public class WindUp implements Ability {
 	
 	public void modifyBullet(BulletSkeleton bullet) {
 		
+		if (this.toggle) {
+			
+			return;
+		}
+		
 		//increase damage and bullet speed
 		bullet.addDamage((int) (bullet.getDamage() * 1.5));
-		bullet.addVelocity(bullet.getVelocity() * .5f);
+		bullet.setVelocity(bullet.getVelocity() * 1.5f);
+	}
+	
+	public void toggleFalse() {
+		
+		this.toggle = false;
+	}
+	
+	public void toggleTrue() {
+		
+		this.toggle = true;
 	}
 }
