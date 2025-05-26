@@ -43,6 +43,7 @@ public class TankSkeleton implements Entity {
 	private int shootCD = 0; // shooting cooldown (how many frames left until shoot enabled)
 	private int reloadCD = 60; // once per second
 	private boolean canShoot = true; // what if we add stuns so shootCD isn't the only thing stopping shooting
+	private float bulletspeed = 200;
 	private int bulletradius = 3; // default
 	private int bulletdamage = 30;
 	private int bulletBounces = 3; 
@@ -160,6 +161,7 @@ public class TankSkeleton implements Entity {
 			
 			for (BulletSkeleton bullet : bullets) {
 				
+				ability.toggleFalse();
 				ability.modifyBullet(bullet);
 			}
 			
@@ -255,7 +257,7 @@ public class TankSkeleton implements Entity {
     		
         	//TODO update when done with abilities
         	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
-        			this.tvel, true, bulletBounces, bulletradius, bulletdamage, color);
+        			this.bulletspeed + this.tvel, true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
@@ -380,9 +382,29 @@ public class TankSkeleton implements Entity {
 		return this.bulletBounces;
 	}
 	
+	public void setBulletBounces(int bounces) {
+		
+		this.bulletBounces = bounces;
+	}
+	
 	public int getBulletDamage() {
 		
-		return this.getBulletDamage();
+		return this.bulletdamage;
+	}
+	
+	public void setBulletDamage(int damage) {
+		
+		this.bulletdamage = damage;
+	}
+	
+	public float getBulletSpeed() {
+		
+		return this.bulletspeed;
+	}
+	
+	public void setBulletSpeed(float speed) {
+		
+		this.bulletspeed = speed;
 	}
 	
 	public Color getColor() {

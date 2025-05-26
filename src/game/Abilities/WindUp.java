@@ -19,23 +19,19 @@ public class WindUp implements Ability {
 			return;
 		}
 		
-		//reduce movespeed
+		//reduce movespeed and reload; increase damage and bullet speed
 		tank.setVelocity(tank.getVelocity() * .8f);
 		
-		//reduce reload
 		tank.setReloadCD((int) (tank.getReloadCD() * 1.2));
+		
+		tank.setBulletDamage((int) (tank.getBulletDamage() * 1.5));
+		
+		tank.setBulletSpeed(tank.getBulletSpeed() * 1.5f);
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {
-		
-		if (this.toggle) {
-			
-			return;
-		}
-		
-		//increase damage and bullet speed
-		bullet.addDamage((int) (bullet.getDamage() * 1.5));
-		bullet.setVelocity(bullet.getVelocity() * 1.5f);
+
+		return;
 	}
 	
 	public void toggleFalse() {

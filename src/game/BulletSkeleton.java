@@ -10,7 +10,7 @@ public class BulletSkeleton implements Entity {
 	private float x, y;
 	private float theta;
 	
-	private float velocity = 200;
+	private float velocity; 
 	
 	// next frame
 	
@@ -32,14 +32,14 @@ public class BulletSkeleton implements Entity {
 	private int height;
 	private Color color;
 	
-	public BulletSkeleton(TankSkeleton owner, int x, int y, float theta, float momentum,
+	public BulletSkeleton(TankSkeleton owner, int x, int y, float theta, float velocity,
 			boolean bounceEnabled, int maxBounces, int radius, int damage, Color color) {
 		
 		this.owner = owner;
 		this.x = x;
 		this.y = y;
 		this.theta = theta;
-		this.velocity += momentum;
+		this.velocity = velocity;
 		
 		this.bounceEnabled = bounceEnabled;
 		this.maxBounces = maxBounces;
