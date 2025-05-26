@@ -44,16 +44,18 @@ public class TankSkeleton implements Entity {
 	private int shootCD = 0; // shooting cooldown (how many frames left until shoot enabled)
 	private int reloadCD = 60; // once per second
 	private boolean canShoot = true; // what if we add stuns so shootCD isn't the only thing stopping shooting
-	private float bulletspeed = 200;
+	private float bulletspeed = 300;
+	private float bulletmomentum = 0;
 	private int bulletradius = 3; // default
 	private int bulletdamage = 30;
 	private int bulletBounces = 3; 
 	
 	private int dashCD = 0;
 	private int dashFrame = 0;
-	private int dashReloadCD = 300; // once per 5 seconds
+	private int dashReloadCD = 180; // once per 3 seconds
 	private float dashspeed = 10;
 	private float dashvel;
+	private float dashmomentummodifier = 20; // bullet momentum increase when dashing
 	private float dashtheta;
 	private boolean dashBackward;
 	
@@ -69,7 +71,6 @@ public class TankSkeleton implements Entity {
 		
 		this.hp = this.maxHP;
 		
-		System.out.println(color.getRed() + " " + color.getBlue());
 		try {
 			
 			if (color.getRed() == 255) {
@@ -137,6 +138,8 @@ public class TankSkeleton implements Entity {
 		this.dtheta = 0;
 		
 		dashing();
+		this.dashBackward = false;
+		this.bulletmomentum = 0;
 	}
 	
 	private void updateHealth() {
@@ -187,7 +190,7 @@ public class TankSkeleton implements Entity {
 		this.dx += this.tvel * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
 		this.dy += this.tvel * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
 		
-		this.dashBackward = false;
+		this.bulletmomentum = this.tvel / 2;
 	}
 	
 	public void moveBackward(float deltaTime) {
@@ -195,6 +198,7 @@ public class TankSkeleton implements Entity {
 		this.dx -= this.backwardtvel * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
 		this.dy -= this.backwardtvel * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
 		
+		this.bulletmomentum = -this.dashvel * this.dashmomentummodifier;
 		this.dashBackward = true;
 	}
 	
@@ -276,9 +280,9 @@ public class TankSkeleton implements Entity {
     	if (this.canShoot) {
     		this.shootCD = this.reloadCD;
     		
-        	//TODO update when done with abilities
+    		this.bulletmomentum += this.dashvel * this.dashmomentummodifier;
         	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
-        			this.bulletspeed + this.tvel, true, bulletBounces, bulletradius, bulletdamage, color);
+        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
@@ -310,6 +314,10 @@ public class TankSkeleton implements Entity {
     		this.dy += this.dashvel * Math.sin(this.dashtheta * Math.PI / 180f);
     		this.dashvel *= .9f;
     		this.dashFrame += 1;
+    	}
+    	else {
+    		
+    		this.dashvel = 0;
     	}
     }
     

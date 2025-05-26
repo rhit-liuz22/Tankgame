@@ -24,7 +24,7 @@ public class Game {
     
     public Game() {
         players = new ArrayList<>();
-        map = new GameMap(704, 640);
+        map = new GameMap(720, 640);
         initializePlayers();
         
         // all existing abilities
@@ -39,7 +39,7 @@ public class Game {
         players.add(new PlayerSkeleton(1, new Color(255, 50, 50), 
             new Controls(87, 65, 83, 68, 32, 69))); // WASD + Space + E
         players.add(new PlayerSkeleton(2, new Color(50, 50, 255),
-            new Controls(38, 37, 40, 39, 10, 161))); // Arrows + Enter + RShift
+            new Controls(38, 37, 40, 39, 10, 16))); // Arrows + Enter + Shift
     }
     
     public void startGame() {
