@@ -45,18 +45,10 @@ public class Viewer extends JFrame {
         scorePanel.updateScores();
     }
     
-    public void showGameOver() {
-        String winner = "Game Over! ";
-        int maxScore = -1;
+    public void showGameOver(PlayerSkeleton winner) {
+        String endGame = "player " + winner.getID() + " has won the game!";
         
-        for (PlayerSkeleton player : game.getPlayers()) {
-            if (player.getScore() > maxScore) {
-                maxScore = player.getScore();
-                winner = "Player " + player.getID() + " wins!";
-            }
-        }
-        
-        JOptionPane.showMessageDialog(this, winner, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, endGame, "Game Over", JOptionPane.INFORMATION_MESSAGE);
     }
     
     private static class GamePanel extends JPanel {
@@ -105,7 +97,7 @@ public class Viewer extends JFrame {
                 g2d.setColor(Color.GRAY);
                 g2d.fillRect(x, y, width, height);
 
-                float healthPercent = tank.getHealth() / 100f;
+                float healthPercent = tank.getHealth() / (float) tank.getMaxHealth();
                 g2d.setColor(player.getColor());
                 g2d.fillRect(x, y, (int)(width * healthPercent), height);
 

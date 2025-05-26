@@ -32,7 +32,7 @@ public class BigBoyBullet implements Ability {
 		tank.setBulletSpeed(tank.getBulletSpeed() * .5f);
 		
 		System.out.println("current bullet radius: " + tank.getBulletRadius());
-		tank.setBulletRadius(tank.getBulletRadius() * 2);
+		tank.setBulletRadius((int) (tank.getBulletRadius() * 1.5));
 		System.out.println("new bullet radius: " + tank.getBulletRadius());
 	}
 	
@@ -53,6 +53,6 @@ public class BigBoyBullet implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "Big Boy Bullet";
+		return "Big Boy Bullet - slower bullet speed, increased bullet damage and size";
 	}
 }

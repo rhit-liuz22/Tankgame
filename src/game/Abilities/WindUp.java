@@ -51,6 +51,6 @@ public class WindUp implements Ability{
 	
 	public String getAbilityDescription() {
 		
-		return "Wind-Up";
+		return "Wind Up - slower tank speed and increased reload time, increased damage and bullet speed";
 	}
 }

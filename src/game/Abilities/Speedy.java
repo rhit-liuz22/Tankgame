@@ -53,6 +53,6 @@ public class Speedy implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "Speedy";
+		return "Speedy - smaller bullet size and decreased damage, faster tank speed and bullet speed and reload time";
 	}
 }

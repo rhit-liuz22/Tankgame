@@ -23,6 +23,7 @@ public class TankSkeleton implements Entity {
 	private final int HEIGHT = 40;
 	
 	private int maxHP = 100;
+	
 	private int hp;
 	
 	private java.awt.image.BufferedImage tankSprite; // no calculations so only update per state
@@ -197,6 +198,10 @@ public class TankSkeleton implements Entity {
 		if (this.hp + dhp <= this.maxHP) {
 			
 			this.dhp = dhp;
+		}
+		else {
+			
+			this.dhp = this.maxHP - this.hp;
 		}
 	}
 	
@@ -465,6 +470,11 @@ public class TankSkeleton implements Entity {
 	public int getMaxHealth() {
 		
 		return this.maxHP;
+	}
+	
+	public void setMaxHealth(int health) {
+		
+		this.maxHP = health;
 	}
 	
 	public void setHealth(int health) {

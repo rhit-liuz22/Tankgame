@@ -32,6 +32,7 @@ public class Game {
         allAbilities.add(new WindUp());
         allAbilities.add(new BigBoyBullet());
         allAbilities.add(new Speedy());
+        allAbilities.add(new Goliath());
     }
     
     private void initializePlayers() {
@@ -67,6 +68,7 @@ public class Game {
     private void update(float deltaTime) {
 
         if (checkRoundOver()) {
+        	
             nextRound();
         }
     	
@@ -87,34 +89,40 @@ public class Game {
     private void nextRound() {
     	gameRunning = false;
     	
+    	TankSkeleton tank1 = players.get(0).getTank();
+    	TankSkeleton tank2 = players.get(1).getTank();
+    	
     	ArrayList<Ability> toShow = new ArrayList<>();
     	for (int i = 0; i < 3; i++) {
     		
-    		int index = i; // make random if we have more abilities
+    		int index = (int) (Math.random() * allAbilities.size());
+    		while (toShow.contains(allAbilities.get(index))) {
+    			
+    			index = (int) (Math.random() * allAbilities.size());
+    		}
     		toShow.add(allAbilities.get(index));
     	}
     	for (Ability ability : toShow) {
     		
-    		System.out.println(ability.getAbilityDescription() + " #" + String.valueOf(toShow.indexOf(ability) + 1));
+    		System.out.println("#" + String.valueOf(toShow.indexOf(ability) + 1) + " : " + ability.getAbilityDescription());
     	}
     	System.out.println("player " + this.loser.getID() + " choose a Power-Up (Numbers 1-3)");
     	@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int powerUpSelection = scanner.nextInt();
-		System.out.println("You chose Power-Up #"+ powerUpSelection);
+		System.out.println("You chose Power-Up #"+ powerUpSelection + " : " + toShow.get(powerUpSelection - 1).getAbilityDescription());
 		for (PlayerSkeleton player : players) {
             if (player.getTank().getHealth() <= 0) {
                 player.getTank().addAbility(toShow.get(powerUpSelection - 1).copy());
             }
+            
+            player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
         }
 		
 		this.map.generate();
 		
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
-    	
-    	TankSkeleton tank1 = players.get(0).getTank();
-    	TankSkeleton tank2 = players.get(1).getTank();
     	
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
@@ -221,7 +229,13 @@ public class Game {
         		if (! (player == loser)) {
         			
         			player.incrementScore();
-        			System.out.println(player.getID() + " has won the round!");
+        			System.out.println("player " + player.getID() + " has won the round!");
+        			
+        			if (player.getScore() >= 5) {
+        				
+        				endGame(player);
+        				viewer.dispose();
+        			}
         			return true;
         		}
         	}
@@ -229,10 +243,10 @@ public class Game {
         return false;
     }
     
-    private void endGame() {
+    private void endGame(PlayerSkeleton winner) {
         gameRunning = false;
         gameTimer.stop();
-        viewer.showGameOver();
+        viewer.showGameOver(winner);
     }
     
     // Getters and setters
