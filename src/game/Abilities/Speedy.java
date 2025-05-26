@@ -29,11 +29,13 @@ public class Speedy implements Ability {
 		
 		tank.setVelocity(tank.getVelocity() * 1.2f, tank.getBackVelocity() * 1.2f);
 		
+		tank.setReloadCD(tank.getReloadCD() * .8f);
+		
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.25f);
 		
-		tank.setBulletRadius((int) (tank.getBulletRadius() * .75));
+		tank.setBulletRadius(tank.getBulletRadius() * .75f);
 		
-		tank.setBulletDamage((int) (tank.getBulletDamage() * .75));
+		tank.setBulletDamage(tank.getBulletDamage() * .75f);
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {

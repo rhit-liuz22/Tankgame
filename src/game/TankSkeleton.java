@@ -22,37 +22,37 @@ public class TankSkeleton implements Entity {
 	private final int WIDTH = 48;
 	private final int HEIGHT = 40;
 	
-	private int maxHP = 100;
+	private float maxHP = 100;
 	
-	private int hp;
+	private float hp;
 	
 	private java.awt.image.BufferedImage tankSprite; // no calculations so only update per state
 	
 	// next frame state (calculations)
 	private float  dx, dy; // change in position
 	private float dtheta; // change in angle
-	private int dhp; // change in hit points
+	private float dhp; // change in hit points
 	
 	// movement
 	private float tvel = 200; // translational velocity (movement speed)
 	private float backwardtvel = 150; // backwards movement speed
-	private float rvel = 180; // rotational velocity (rotation speed)
+	private float rvel = 360; // rotational velocity (rotation speed)
 	
 	private ArrayList<Ability> abilities;
 	
 	private ArrayList<BulletSkeleton> bullets;
 	private int shootCD = 0; // shooting cooldown (how many frames left until shoot enabled)
-	private int reloadCD = 60; // once per second
+	private float reloadCD = 60; // once per second
 	private boolean canShoot = true; // what if we add stuns so shootCD isn't the only thing stopping shooting
 	private float bulletspeed = 300;
 	private float bulletmomentum = 0;
-	private int bulletradius = 3; // default
-	private int bulletdamage = 30;
+	private float bulletradius = 3; // default
+	private float bulletdamage = 30;
 	private int bulletBounces = 3; 
 	
 	private int dashCD = 0;
 	private int dashFrame = 0;
-	private int dashReloadCD = 180; // once per 3 seconds
+	private float dashReloadCD = 180; // once per 3 seconds
 	private float dashspeed = 10;
 	private float dashvel;
 	private float dashmomentummodifier = 20; // bullet momentum increase when dashing
@@ -213,7 +213,7 @@ public class TankSkeleton implements Entity {
 		this.dtheta += this.rvel * deltaTime;
 	}
 	
-	public void addHealth(int dhp) {
+	public void addHealth(float dhp) {
 		
 		if (this.hp + dhp <= this.maxHP) {
 			
@@ -278,11 +278,11 @@ public class TankSkeleton implements Entity {
     public void shootBullet() {
     	
     	if (this.canShoot) {
-    		this.shootCD = this.reloadCD;
+    		this.shootCD = (int) this.reloadCD;
     		
     		this.bulletmomentum += this.dashvel * this.dashmomentummodifier;
-        	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
-        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, bulletradius, bulletdamage, color);
+        	BulletSkeleton bullet = new BulletSkeleton(this, (int) getBulletX(), (int) getBulletY(), this.theta,
+        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, (int) bulletradius, (int) bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
@@ -297,7 +297,7 @@ public class TankSkeleton implements Entity {
     		if (this.dashBackward) {
     			this.dashtheta += 180;
     		}
-    		this.dashCD = this.dashReloadCD;
+    		this.dashCD = (int) this.dashReloadCD;
     		this.dashFrame = 0;
     	}
     	else {
@@ -386,7 +386,7 @@ public class TankSkeleton implements Entity {
 		this.backwardtvel = newbackvel;
 	}
 	
-	public int getHealth() {
+	public float getHealth() {
 		
 		return this.hp;
 	}
@@ -431,14 +431,14 @@ public class TankSkeleton implements Entity {
 		this.dy = dy;
 	}
 	
-	public int getBulletX() {
+	public float getBulletX() {
 		
-		return getMiddleX() + (int) (16*Math.cos(this.theta * Math.PI / 180f)) - bulletradius;
+		return getMiddleX() + (float) (16*Math.cos(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
-	public int getBulletY() {
+	public float  getBulletY() {
 		
-		return getMiddleY() + (int) (16*Math.sin(this.theta * Math.PI / 180f)) - bulletradius;
+		return getMiddleY() + (float) (16*Math.sin(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
 	public int getBulletBounces() {
@@ -451,12 +451,12 @@ public class TankSkeleton implements Entity {
 		this.bulletBounces = bounces;
 	}
 	
-	public int getBulletDamage() {
+	public float getBulletDamage() {
 		
 		return this.bulletdamage;
 	}
 	
-	public void setBulletDamage(int damage) {
+	public void setBulletDamage(float damage) {
 		
 		this.bulletdamage = damage;
 	}
@@ -471,12 +471,12 @@ public class TankSkeleton implements Entity {
 		this.bulletspeed = speed;
 	}
 	
-	public int getBulletRadius() {
+	public float getBulletRadius() {
 		
 		return this.bulletradius;
 	}
 	
-	public void setBulletRadius(int rad) {
+	public void setBulletRadius(float rad) {
 		
 		if (rad < 1) {
 			return;
@@ -494,12 +494,12 @@ public class TankSkeleton implements Entity {
 		this.abilities.add(ability);
 	}
 	
-	public int getReloadCD() {
+	public float getReloadCD() {
 		
 		return this.reloadCD;
 	}
 	
-	public void setReloadCD(int cd) {
+	public void setReloadCD(float cd) {
 		
 		this.reloadCD = cd;
 	}
@@ -520,17 +520,17 @@ public class TankSkeleton implements Entity {
 		this.canControl = control;
 	}
 	
-	public int getMaxHealth() {
+	public float getMaxHealth() {
 		
 		return this.maxHP;
 	}
 	
-	public void setMaxHealth(int health) {
+	public void setMaxHealth(float health) {
 		
 		this.maxHP = health;
 	}
 	
-	public void setHealth(int health) {
+	public void setHealth(float health) {
 		this.hp = health;
 	}
 }

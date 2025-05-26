@@ -27,13 +27,13 @@ public class BigBoyBullet implements Ability {
 		
 		//increase damage and radius of bullet, decrease its speed
 		
-		tank.setBulletDamage((int) (tank.getBulletDamage() * 2));
+		tank.setBulletDamage(tank.getBulletDamage() * 2);
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * .5f);
 		
-		System.out.println("current bullet radius: " + tank.getBulletRadius());
-		tank.setBulletRadius((int) (tank.getBulletRadius() * 1.5));
-		System.out.println("new bullet radius: " + tank.getBulletRadius());
+		System.out.println("current bullet radius: " + (int) tank.getBulletRadius());
+		tank.setBulletRadius(tank.getBulletRadius() * 1.5f);
+		System.out.println("new bullet radius: " + (int) tank.getBulletRadius());
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {

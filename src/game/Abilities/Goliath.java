@@ -25,7 +25,7 @@ public class Goliath implements Ability{
 		
 		if (cd <= 0) {
 			
-			tank.addHealth((int) (tank.getMaxHealth() * .02));
+			tank.addHealth(tank.getMaxHealth() * .02f);
 			this.cd = this.resetCD;
 		}
 		else {
@@ -40,7 +40,7 @@ public class Goliath implements Ability{
 		
 		//increase health
 		
-		tank.setMaxHealth((int) (tank.getMaxHealth() * 1.5));
+		tank.setMaxHealth(tank.getMaxHealth() * 1.5f);
 		tank.setHealth(tank.getMaxHealth());
 	}
 	

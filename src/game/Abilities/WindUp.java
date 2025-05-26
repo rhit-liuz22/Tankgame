@@ -27,9 +27,9 @@ public class WindUp implements Ability{
 		//reduce movespeed and reload; increase damage and bullet speed
 		tank.setVelocity(tank.getVelocity() * .8f, tank.getBackVelocity() * .8f);
 		
-		tank.setReloadCD((int) (tank.getReloadCD() * 1.2));
+		tank.setReloadCD(tank.getReloadCD() * 1.2f);
 		
-		tank.setBulletDamage((int) (tank.getBulletDamage() * 1.5));
+		tank.setBulletDamage(tank.getBulletDamage() * 1.5f);
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.5f);
 	}

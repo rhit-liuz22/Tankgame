@@ -97,7 +97,7 @@ public class Viewer extends JFrame {
                 g2d.setColor(Color.GRAY);
                 g2d.fillRect(x, y, width, height);
 
-                float healthPercent = tank.getHealth() / (float) tank.getMaxHealth();
+                float healthPercent = tank.getHealth() / tank.getMaxHealth();
                 g2d.setColor(player.getColor());
                 g2d.fillRect(x, y, (int)(width * healthPercent), height);
 
