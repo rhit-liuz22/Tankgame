@@ -11,6 +11,12 @@ public class BigBoyBullet implements Ability {
 		
 		this.toggle = false;
 	}
+	
+	public BigBoyBullet copy() {
+		
+		return new BigBoyBullet();
+	}
+
 
 	public void modifyTank(TankSkeleton tank){
 		
@@ -25,7 +31,9 @@ public class BigBoyBullet implements Ability {
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * .5f);
 		
-		tank.setBulletRadius(tank.getBulletRadius() * 3);
+		System.out.println("current bullet radius: " + tank.getBulletRadius());
+		tank.setBulletRadius(tank.getBulletRadius() * 2);
+		System.out.println("new bullet radius: " + tank.getBulletRadius());
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {

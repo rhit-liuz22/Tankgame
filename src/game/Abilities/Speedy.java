@@ -11,6 +11,12 @@ public class Speedy implements Ability {
 		
 		this.toggle = false;
 	}
+	
+	public Speedy copy() {
+		
+		return new Speedy();
+	}
+
 
 	public void modifyTank(TankSkeleton tank){
 		
@@ -21,7 +27,7 @@ public class Speedy implements Ability {
 		
 		//increase tank speed, bullet speed, and reload speed; decrease bullet size and damage
 		
-		tank.setVelocity(tank.getVelocity() * 1.2f);
+		tank.setVelocity(tank.getVelocity() * 1.2f, tank.getBackVelocity() * 1.2f);
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.25f);
 		

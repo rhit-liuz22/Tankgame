@@ -317,9 +317,15 @@ public class TankSkeleton implements Entity {
 		return this.tvel;
 	}
 	
-	public void setVelocity(float newvel) {
+	public float getBackVelocity() {
+		
+		return this.backwardtvel;
+	}
+	
+	public void setVelocity(float newvel, float newbackvel) {
 		
 		this.tvel = newvel;
+		this.backwardtvel = newbackvel;
 	}
 	
 	public int getHealth() {
@@ -414,6 +420,9 @@ public class TankSkeleton implements Entity {
 	
 	public void setBulletRadius(int rad) {
 		
+		if (rad < 1) {
+			return;
+		}
 		this.bulletradius = rad;
 	}
 	

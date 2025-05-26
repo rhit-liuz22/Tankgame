@@ -16,19 +16,13 @@ public class Collision {
 		if (entity2.getClass().isInstance(Wall.class)) {
 			
 			double dx1 = entity1.getVelocity() * Math.cos(entity1.getTheta());
-			if (dx1 > 0) {
-				
-				x2 = entity2.getNextX() - dx1;
-			}
-			else {
-				
-				width2 = entity2.getWidth() - dx1;
-			}
+			x2 = entity2.getNextX() - Math.abs(dx1);
+			width2 = entity2.getWidth() + Math.abs(dx1);
 		}
 		
 		// next frame rectangle
 		if (entity1.getNextX() + entity1.getWidth() > x2
-			&& entity1.getNextX() < x2 + width2) {
+			&& entity1.getNextX() < entity2.getNextX() + width2) {
 			
 			return true;
 		}
@@ -45,19 +39,13 @@ public class Collision {
 		if (entity2.getClass().isInstance(Wall.class)) {
 			
 			double dy1 = entity1.getVelocity() * Math.sin(entity1.getTheta());
-			if (dy1 > 0) {
-				
-				y2 = entity2.getNextY() - dy1;
-			}
-			else {
-				
-				height2 = entity2.getHeight() - dy1;
-			}
+			y2 = entity2.getNextY() - Math.abs(dy1);
+			height2 = entity2.getHeight() + Math.abs(dy1);
 		}
 		
 		// next frame rectangle
 		if (entity1.getNextY() + entity1.getHeight() > y2
-			&& entity1.getNextY() < y2 + height2) {
+			&& entity1.getNextY() < entity2.getNextY() + height2) {
 			
 			return true;
 		}

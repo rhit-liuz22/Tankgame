@@ -13,6 +13,7 @@ import game.Abilities.*;
 public class Game {
     
     private ArrayList<PlayerSkeleton> players;
+    private PlayerSkeleton loser;
     
     private GameMap map;
     private Viewer viewer;
@@ -96,16 +97,18 @@ public class Game {
     		
     		System.out.println(ability.getAbilityDescription() + " #" + String.valueOf(toShow.indexOf(ability) + 1));
     	}
-    	System.out.println("Choose a Power-Up (Numbers 1-3)");
+    	System.out.println("player " + this.loser.getID() + " choose a Power-Up (Numbers 1-3)");
     	@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		int powerUpSelection = scanner.nextInt();
 		System.out.println("You chose Power-Up #"+ powerUpSelection);
 		for (PlayerSkeleton player : players) {
             if (player.getTank().getHealth() <= 0) {
-                player.getTank().addAbility(toShow.get(powerUpSelection - 1));
+                player.getTank().addAbility(toShow.get(powerUpSelection - 1).copy());
             }
         }
+		
+		this.map.generate();
 		
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
@@ -115,8 +118,6 @@ public class Game {
     	
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
-    	
-    	
     	
     	gameRunning = true;
 	}
@@ -138,11 +139,11 @@ public class Game {
     				boolean withinY = Collision.isCollidedY(bullet, wall);
     				if (withinX && withinY) {
     					
-    					if (bullet.getX() + bullet.getWidth() < wall.getX() || bullet.getX() > wall.getX() + wall.getWidth()) {
+    					if (bullet.getX() < wall.getX() || bullet.getX() > wall.getX() + wall.getWidth()) {
     						
     						bullet.bounce(wall.getTheta());
     					}
-    					if (bullet.getY() + bullet.getHeight() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
+    					if (bullet.getY() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
     						
     						bullet.bounce(wall.getTheta() + 90);
     					}
@@ -196,10 +197,34 @@ public class Game {
     }
     
     private boolean checkRoundOver() {
+        ArrayList<PlayerSkeleton> alivePlayers = new ArrayList<>();
+        ArrayList<PlayerSkeleton> deadPlayers = new ArrayList<>();
+        
         for (PlayerSkeleton player : players) {
-            if (player.getTank().getHealth() <= 0) {
-                return true;
-            }
+        	
+        	if (player.getTank().getHealth() > 0) {
+        		
+        		alivePlayers.add(player);
+        	}
+        	else {
+        		
+        		deadPlayers.add(player);
+        	}
+        }
+        
+        if (deadPlayers.size() > 0) {
+        	
+        	PlayerSkeleton loser = deadPlayers.get((int) (Math.random() * deadPlayers.size()));
+        	this.loser = loser;
+        	for (PlayerSkeleton player : players) {
+        		
+        		if (! (player == loser)) {
+        			
+        			player.incrementScore();
+        			System.out.println(player.getID() + " has won the round!");
+        			return true;
+        		}
+        	}
         }
         return false;
     }

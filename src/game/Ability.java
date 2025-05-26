@@ -1,6 +1,8 @@
 package game;
 
 public interface Ability {
+	
+	Ability copy();
 
 	void modifyTank(TankSkeleton tank);
 	
@@ -10,5 +12,5 @@ public interface Ability {
 	
 	void toggleFalse();
 	
-	String getAbilityDescription();
+	String getAbilityDescription();	
 }
