@@ -47,6 +47,6 @@ public class Speedy implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "";
+		return "Speedy";
 	}
 }

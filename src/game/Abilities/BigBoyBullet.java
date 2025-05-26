@@ -45,6 +45,6 @@ public class BigBoyBullet implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "";
+		return "Big Boy Bullet";
 	}
 }

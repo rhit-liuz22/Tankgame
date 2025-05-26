@@ -46,6 +46,6 @@ public class WindUp implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "";
+		return "Wind-Up";
 	}
 }
