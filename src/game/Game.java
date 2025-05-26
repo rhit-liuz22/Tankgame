@@ -96,7 +96,7 @@ public class Game {
     	TankSkeleton tank2 = players.get(1).getTank();
     	
     	ArrayList<Ability> toShow = new ArrayList<>();
-    	for (int i = 0; i < 3; i++) {
+    	for (int i = 0; i < 5; i++) {
     		
     		int index = (int) (Math.random() * allAbilities.size());
     		while (toShow.contains(allAbilities.get(index))) {

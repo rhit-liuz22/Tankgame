@@ -28,8 +28,6 @@ public class ImpactBullets implements Ability {
 		// spawn bullets at bullet bounce location
 		for (BulletSkeleton explode : toexplode) {
 			
-			System.out.println("working");
-			
 			for (int i = 0; i < 8; i++) {
 				
 				BulletSkeleton shrapnel = new BulletSkeleton(tank, explode.getX(), explode.getY(),

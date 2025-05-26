@@ -128,7 +128,7 @@ public class BulletSkeleton implements Entity {
 		}
 		else {
 			
-			if (this.numBounces == this.maxBounces && this.maxBounces > 0) {
+			if (this.numBounces >= this.maxBounces && this.maxBounces > 0) {
 				
 				this.bounceFrame = true;
 			}
