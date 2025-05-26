@@ -47,6 +47,10 @@ public class TankSkeleton implements Entity {
 	private int bulletdamage = 30;
 	private int bulletBounces = 3; 
 	
+	private boolean canRender;
+	private boolean canControl;
+	
+	
 	public TankSkeleton(int x, int y, float theta, Color color) {
 		
 		this.x = x;
@@ -118,7 +122,6 @@ public class TankSkeleton implements Entity {
 	}
 	
 	private void updateMovement() {
-		
 		this.x += this.dx;
 		this.y += this.dy;
 		this.theta += this.dtheta;
@@ -388,5 +391,30 @@ public class TankSkeleton implements Entity {
 	public void addAbility(Ability ability) {
 		
 		this.abilities.add(ability);
+	}
+	
+	public boolean getRender() {
+		return this.canRender;
+	}
+	
+	public void setRender(boolean render) {
+		this.canRender = render;
+	}
+	
+	public boolean getControl() {
+		return this.canControl;
+	}
+	
+	public void setControl(boolean control) {
+		this.canControl = control;
+	}
+	
+	public int getMaxHealth() {
+		
+		return this.maxHP;
+	}
+	
+	public void setHealth(int health) {
+		this.hp = health;
 	}
 }
