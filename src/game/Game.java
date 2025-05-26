@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import javax.swing.Timer;
 
 import game.Abilities.*;
@@ -56,8 +58,8 @@ public class Game {
     
     private void update(float deltaTime) {
 
-        if (checkGameOver()) {
-            endGame();
+        if (checkRoundOver()) {
+            nextRound();
         }
     	
         controller.update(deltaTime);
@@ -74,7 +76,27 @@ public class Game {
         }
     }
     
-    // deal with collisions using new collision
+    private void nextRound() {
+    	gameRunning = false;
+    	
+    	System.out.println("Choose a Power-Up (Numbers 1-3)");
+    	Scanner scanner = new Scanner(System.in);
+		int powerUpSelection = scanner.nextInt();
+		System.out.println("You chose Power-Up #"+ powerUpSelection);
+		
+		players.get(0).spawnTank(50, 50, 0);
+    	players.get(1).spawnTank(500, 500, 180);
+    	
+    	TankSkeleton tank1 = players.get(0).getTank();
+    	TankSkeleton tank2 = players.get(1).getTank();
+    	
+    	tank1.setHealth(tank1.getMaxHealth());
+    	tank2.setHealth(tank2.getMaxHealth());
+    	
+    	gameRunning = true;
+	}
+
+	// deal with collisions using new collision
     public void handleCollisions() {
     	
     	ArrayList<BulletSkeleton> allBullets = new ArrayList<>();
@@ -148,7 +170,7 @@ public class Game {
     	}
     }
     
-    private boolean checkGameOver() {
+    private boolean checkRoundOver() {
         for (PlayerSkeleton player : players) {
             if (player.getTank().getHealth() <= 0) {
                 return true;
