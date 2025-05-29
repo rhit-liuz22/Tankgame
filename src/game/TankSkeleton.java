@@ -55,7 +55,7 @@ public class TankSkeleton implements Entity {
 	private float dashReloadCD = 180; // once per 3 seconds
 	private float dashspeed = 10;
 	private float dashvel;
-	private float dashmomentummodifier = 20; // bullet momentum increase when dashing
+	private float dashmomentummodifier = 50; // bullet momentum increase when dashing
 	private float dashtheta;
 	private boolean dashBackward;
 	
@@ -293,7 +293,8 @@ public class TankSkeleton implements Entity {
     		
     		this.bulletmomentum += this.dashvel * this.dashmomentummodifier;
         	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
-        			(this.bulletspeed + this.bulletmomentum) * (3 / (float) this.bulletradius), true, bulletBounces, bulletradius, bulletdamage, color);
+        			this.bulletspeed, this.bulletmomentum,
+        			true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
