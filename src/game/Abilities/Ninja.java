@@ -3,20 +3,18 @@ import game.Ability;
 import game.BulletSkeleton;
 import game.TankSkeleton;
 
-public class Grow implements Ability{
+public class Ninja implements Ability{
 	
 	boolean toggle;
-	int cd = 0;
-	int resetCD = 60; // grow
 	
-	public Grow() {
+	public Ninja() {
 		
 		this.toggle = false;
 	}
 	
-	public Grow copy() {
+	public Ninja copy() {
 		
-		return new Grow();
+		return new Ninja();
 	}
 
 	public void modifyTank(TankSkeleton tank){
@@ -26,18 +24,19 @@ public class Grow implements Ability{
 			return;
 		}
 		
-		// increase tank hp
-		tank.setMaxHealth(tank.getMaxHealth() * 1.2f);
+		// increase dash speed, dash reload speed, movement speed, reload speed, decrease max health
+		
+		tank.setDashCD(tank.getDashCD() * 0.65f);
+		tank.setDashSpeed(tank.getDashSpeed() * 1.35f);
+		tank.setVelocity(tank.getVelocity() * 1.2f, tank.getBackVelocity() * 1.2f);
+		tank.setReloadCD(tank.getReloadCD() * 0.8f);
+		tank.setMaxHealth(tank.getMaxHealth() * .75f);
+		
 		tank.setHealth(tank.getMaxHealth());
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {
 
-		// increase bullet damage and speed over time
-		
-		bullet.addDamage(bullet.getDamage() * 0.0035f);
-		bullet.addVelocity(bullet.getVelocity() * 0.01f);
-		
 		return;
 	}
 	
@@ -53,11 +52,11 @@ public class Grow implements Ability{
 	
 	public void resetCD() {
 		
-		this.cd = resetCD;
+		return;
 	}
 	
 	public String getAbilityDescription() {
 		
-		return "Grow - N/A, Increase Tank HP, (increase bullet damage and increase bullet speed)[over time]";
+		return "Ninja - decrease max health, increase dash speed and bullet speed ";
 	}
 }

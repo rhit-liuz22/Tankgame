@@ -25,17 +25,17 @@ public class Speedy implements Ability {
 			return;
 		}
 		
-		//increase tank speed, bullet speed, and reload speed; decrease bullet size and damage
+		// increase tank speed, bullet speed, and reload speed; decrease bullet size and damage
 		
-		tank.setVelocity(tank.getVelocity() * 1.2f, tank.getBackVelocity() * 1.2f);
+		tank.setVelocity(tank.getVelocity() * 1.4f, tank.getBackVelocity() * 1.4f);
 		
 		tank.setReloadCD(tank.getReloadCD() * .8f);
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.25f);
 		
-		tank.setBulletRadius(tank.getBulletRadius() * .75f);
+		tank.setBulletRadius(tank.getBulletRadius() * .8f);
 		
-		tank.setBulletDamage(tank.getBulletDamage() * .75f);
+		tank.setBulletDamage(tank.getBulletDamage() * .8f);
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {

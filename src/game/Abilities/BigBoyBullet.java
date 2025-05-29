@@ -31,9 +31,7 @@ public class BigBoyBullet implements Ability {
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * .5f);
 		
-		System.out.println("current bullet radius: " + (int) tank.getBulletRadius());
-		tank.setBulletRadius(tank.getBulletRadius() * 1.5f);
-		System.out.println("new bullet radius: " + (int) tank.getBulletRadius());
+		tank.setBulletRadius(tank.getBulletRadius() * 1.75f);
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {

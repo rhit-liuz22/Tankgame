@@ -201,7 +201,7 @@ public class TankSkeleton implements Entity {
 		this.dx += this.tvel * Math.cos(this.theta * Math.PI / 180f) * deltaTime;
 		this.dy += this.tvel * Math.sin(this.theta * Math.PI / 180f) * deltaTime;
 		
-		this.bulletmomentum = this.tvel / 2;
+		this.bulletmomentum = this.tvel;
 	}
 	
 	public void moveBackward(float deltaTime) {
@@ -293,7 +293,7 @@ public class TankSkeleton implements Entity {
     		
     		this.bulletmomentum += this.dashvel * this.dashmomentummodifier;
         	BulletSkeleton bullet = new BulletSkeleton(this, getBulletX(), getBulletY(), this.theta,
-        			this.bulletspeed + this.bulletmomentum, true, bulletBounces, bulletradius, bulletdamage, color);
+        			(this.bulletspeed + this.bulletmomentum) * (3 / (float) this.bulletradius), true, bulletBounces, bulletradius, bulletdamage, color);
         	
         	this.bullets.add(bullet);
     	}
@@ -576,5 +576,10 @@ public class TankSkeleton implements Entity {
 	public void setDashSpeed(float speed) {
 		
 		this.dashspeed = speed;
+	}
+	
+	public ArrayList<Ability> getAbilities(){
+		
+		return this.abilities;
 	}
 }

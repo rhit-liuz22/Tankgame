@@ -23,9 +23,18 @@ public class Overclock implements Ability{
 		
 		// reduce health over time
 		
+		int stack = 0;
+		for (Ability ability : tank.getAbilities()) {
+			
+			if (ability.getClass().equals(Overclock.class)) {
+				
+				stack++;
+			}
+		}
+		
 		if (cd <= 0) {
 			
-			tank.addHealth(tank.getMaxHealth() * -.025f);
+			tank.addHealth(tank.getMaxHealth() * -.025f * stack);
 			this.cd = this.resetCD;
 		}
 		else {
@@ -40,13 +49,13 @@ public class Overclock implements Ability{
 		
 		// increase reload speed, bullet damage and speed, movement speed, dash distance, dash reload speed, maxhp
 		
-		tank.setReloadCD(tank.getReloadCD() * .75f);
-		tank.setBulletDamage(tank.getBulletDamage() * 1.5f);
+		tank.setReloadCD(tank.getReloadCD() * .8f);
+		tank.setBulletDamage(tank.getBulletDamage() * 1.2f);
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.5f);
-		tank.setVelocity(tank.getVelocity() * 1.5f, tank.getBackVelocity() * 1.5f);
-		tank.setMaxHealth(tank.getMaxHealth() * 1.5f);
+		tank.setVelocity(tank.getVelocity() * 1.35f, tank.getBackVelocity() * 1.35f);
+		tank.setMaxHealth(tank.getMaxHealth() * 1.2f);
 		tank.setDashSpeed(tank.getDashSpeed() * 1.25f);
-		tank.setDashCD(tank.getDashCD() * .75f);
+		tank.setDashCD(tank.getDashCD() * .8f);
 		tank.setHealth(tank.getMaxHealth());
 	}
 	

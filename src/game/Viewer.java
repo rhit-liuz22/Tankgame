@@ -9,12 +9,19 @@ public class Viewer extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Game game;
+	private JLayeredPane mainPanel;
     private GamePanel gamePanel;
     private ScorePanel scorePanel;
     
     public Viewer(Game game) {
         this.game = game;
+        this.mainPanel = new JLayeredPane();
         initializeUI();
+    }
+    
+    public JLayeredPane getMainPanel() {
+    	
+    	return this.mainPanel;
     }
     
     public GamePanel getGamePanel() {
@@ -30,19 +37,30 @@ public class Viewer extends JFrame {
         
         setLayout(new BorderLayout());
         
+        mainPanel.setPreferredSize(new Dimension(704,704));
+        mainPanel.setLayout(null);
+        
         gamePanel = new GamePanel(game);
-        add(gamePanel, BorderLayout.CENTER);
+        gamePanel.setBounds(0, 60, 704, 704);
+        mainPanel.add(gamePanel,Integer.valueOf(1));
         
         scorePanel = new ScorePanel(game);
-        add(scorePanel, BorderLayout.NORTH);
+        scorePanel.setBounds(0, 0, 704, 64);
+        mainPanel.add(scorePanel,Integer.valueOf(2));
         
         gamePanel.setFocusable(true);
         gamePanel.requestFocusInWindow();
+        
+        setContentPane(mainPanel);
+        setVisible(true);
     }
     
     public void render() {
+    	
         gamePanel.repaint();
         scorePanel.updateScores();
+        mainPanel.repaint();
+        
     }
     
     public void showGameOver(PlayerSkeleton winner) {

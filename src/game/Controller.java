@@ -10,9 +10,11 @@ import javax.swing.JPanel;
 public class Controller implements KeyListener {
     private Game game;
     private Set<Integer> pressedKeys = new HashSet<>();
+    private int selection;
     
     public Controller(Game game) {
         this.game = game;
+        this.selection = -1;
     }
     
     @Override
@@ -62,6 +64,34 @@ public class Controller implements KeyListener {
                 player.getTank().dash();
             }
         }
+    }
+    
+    public void runSelection() {
+    	
+    	if (pressedKeys.contains(KeyEvent.VK_1)) {
+    		this.selection = 1;
+    	}
+    	if (pressedKeys.contains(KeyEvent.VK_2)) {
+    		
+    		this.selection = 2;
+    	}
+    	if (pressedKeys.contains(KeyEvent.VK_3)) {
+    		
+    		this.selection = 3;
+    	}
+    	if (pressedKeys.contains(KeyEvent.VK_4)) {
+    		
+    		this.selection = 4;
+    	}
+    	if (pressedKeys.contains(KeyEvent.VK_5)) {
+    		
+    		this.selection = 5;
+    	}
+    }
+    
+    public int getSelection() {
+    	
+    	return this.selection;
     }
     
     public void addToPanel(JPanel panel) {

@@ -3,9 +3,16 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 import game.Abilities.*;
@@ -37,6 +44,7 @@ public class Game {
         allAbilities.add(new Trickster());
         allAbilities.add(new ImpactBullets());
         allAbilities.add(new Grow());
+        allAbilities.add(new Ninja());
     }
     
     private void initializePlayers() {
@@ -96,8 +104,29 @@ public class Game {
     	TankSkeleton tank1 = players.get(0).getTank();
     	TankSkeleton tank2 = players.get(1).getTank();
     	
+    	int numAbilities = 5;
+    	
+    	ArrayList<Ability> toShow = createAbilitySelection(numAbilities);
+    	
+    	int powerUpSelection = getSelectionIndex();
+    	
+		System.out.println("You chose Power-Up #"+ powerUpSelection + " : " + toShow.get(powerUpSelection - 1).getAbilityDescription());
+		
+		for (PlayerSkeleton player : players) {
+            if (player.getTank().getHealth() <= 0) {
+                player.getTank().addAbility(toShow.get(powerUpSelection - 1).copy());
+            }
+            
+            player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
+        }
+		
+		resetRound(tank1, tank2);
+	}
+    
+    private ArrayList<Ability> createAbilitySelection(int n) {
+    	
     	ArrayList<Ability> toShow = new ArrayList<>();
-    	for (int i = 0; i < 5; i++) {
+    	for (int i = 0; i < n; i++) {
     		
     		int index = (int) (Math.random() * allAbilities.size());
     		while (toShow.contains(allAbilities.get(index))) {
@@ -111,19 +140,26 @@ public class Game {
     		
     		System.out.println("#" + String.valueOf(toShow.indexOf(ability) + 1) + " : " + ability.getAbilityDescription());
     	}
-    	System.out.println("player " + this.loser.getID() + " choose a Power-Up (Numbers 1-3)");
-    	@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
-		int powerUpSelection = scanner.nextInt();
-		System.out.println("You chose Power-Up #"+ powerUpSelection + " : " + toShow.get(powerUpSelection - 1).getAbilityDescription());
-		for (PlayerSkeleton player : players) {
-            if (player.getTank().getHealth() <= 0) {
-                player.getTank().addAbility(toShow.get(powerUpSelection - 1).copy());
-            }
-            
-            player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
-        }
-		
+    	
+    	System.out.println("player " + this.loser.getID() + " choose a Power-Up (Numbers 1-" + n + ")");
+    	
+    	return toShow;
+    }
+    
+    private int getSelectionIndex() {
+    	
+    	Scanner scanint = new Scanner(System.in);
+    	return scanint.nextInt();
+    	
+//		while(controller.getSelection() == -1) {
+//			
+//			controller.runSelection(); // THIS DOESN'T WORK
+//		}
+//		return controller.getSelection();
+    }
+    
+    private void resetRound(TankSkeleton tank1, TankSkeleton tank2) {
+    	
 		this.map.generate();
 		
 		players.get(0).spawnTank(50, 50, 0);
@@ -135,8 +171,8 @@ public class Game {
     	tank2.setHealth(tank2.getMaxHealth());
     	
     	gameRunning = true;
-	}
-
+    }
+    
 	// deal with collisions using new collision
     public void handleCollisions() {
     	
