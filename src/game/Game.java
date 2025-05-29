@@ -3,15 +3,9 @@ package game;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
@@ -28,11 +22,15 @@ public class Game {
     private boolean gameRunning;
     private Controller controller;
     private ArrayList<Ability> allAbilities;
+    private boolean waitingForSelection = false;
+    private ArrayList<Ability> abilitySelections;
     
     public Game() {
         players = new ArrayList<>();
         map = new GameMap(720, 640);
         initializePlayers();
+        
+        abilitySelections = new ArrayList<>();
         
         // all existing abilities
         allAbilities = new ArrayList<>();
@@ -78,6 +76,20 @@ public class Game {
     }
     
     private void update(float deltaTime) {
+    	
+    	if (waitingForSelection) {
+    		controller.runSelection();
+    		if (controller.getSelection() != -1) {
+    			
+    			waitingForSelection = false;
+    			resolveSelection(controller.getSelection());
+    		}
+    		return;
+    	}
+    	else {
+    		
+    		controller.resetSelection();
+    	}
 
         if (checkRoundOver()) {
         	
@@ -99,28 +111,12 @@ public class Game {
     }
     
     private void nextRound() {
-    	gameRunning = false;
-    	
-    	TankSkeleton tank1 = players.get(0).getTank();
-    	TankSkeleton tank2 = players.get(1).getTank();
     	
     	int numAbilities = 5;
     	
-    	ArrayList<Ability> toShow = createAbilitySelection(numAbilities);
+    	this.abilitySelections = createAbilitySelection(numAbilities);
     	
-    	int powerUpSelection = getSelectionIndex();
-    	
-		System.out.println("You chose Power-Up #"+ powerUpSelection + " : " + toShow.get(powerUpSelection - 1).getAbilityDescription());
-		
-		for (PlayerSkeleton player : players) {
-            if (player.getTank().getHealth() <= 0) {
-                player.getTank().addAbility(toShow.get(powerUpSelection - 1).copy());
-            }
-            
-            player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
-        }
-		
-		resetRound(tank1, tank2);
+    	this.waitingForSelection = true;
 	}
     
     private ArrayList<Ability> createAbilitySelection(int n) {
@@ -133,7 +129,6 @@ public class Game {
     			
     			index = (int) (Math.random() * allAbilities.size());
     		}
-    		System.out.println(index);
     		toShow.add(allAbilities.get(index));
     	}
     	for (Ability ability : toShow) {
@@ -146,16 +141,22 @@ public class Game {
     	return toShow;
     }
     
-    private int getSelectionIndex() {
+    private void resolveSelection(int index) {
     	
-    	Scanner scanint = new Scanner(System.in);
-    	return scanint.nextInt();
+    	TankSkeleton tank1 = players.get(0).getTank();
+    	TankSkeleton tank2 = players.get(1).getTank();
     	
-//		while(controller.getSelection() == -1) {
-//			
-//			controller.runSelection(); // THIS DOESN'T WORK
-//		}
-//		return controller.getSelection();
+		System.out.println("You chose Power-Up #"+ index + " : " + abilitySelections.get(index - 1).getAbilityDescription());
+		
+		for (PlayerSkeleton player : players) {
+            if (player.getTank().getHealth() <= 0) {
+                player.getTank().addAbility(abilitySelections.get(index - 1).copy());
+            }
+            
+            player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
+        }
+		
+		resetRound(tank1, tank2);
     }
     
     private void resetRound(TankSkeleton tank1, TankSkeleton tank2) {
@@ -169,8 +170,6 @@ public class Game {
     	tank2.resetAllCooldowns();
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
-    	
-    	gameRunning = true;
     }
     
 	// deal with collisions using new collision
@@ -198,6 +197,12 @@ public class Game {
     						
     						bullet.bounce(wall.getTheta() + 90);
     					}
+    					
+//    					//TODO add dx and dy to set to edges of wall
+//    					if (bullet.getX() > wall.getX()) {
+//    						
+//    						bullet.adddx(bullet.getX() - wall.getX());
+//    					}
     				}
     			}
     		} // bullet-wall

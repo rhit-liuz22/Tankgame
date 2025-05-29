@@ -94,6 +94,11 @@ public class Controller implements KeyListener {
     	return this.selection;
     }
     
+    public void resetSelection() {
+    	
+    	this.selection = -1;
+    }
+    
     public void addToPanel(JPanel panel) {
         panel.addKeyListener(this);
     }

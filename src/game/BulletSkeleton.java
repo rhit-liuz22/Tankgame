@@ -137,7 +137,7 @@ public class BulletSkeleton implements Entity {
 		}
 		else {
 			
-			if (this.numBounces >= this.maxBounces && this.maxBounces > 0) {
+			if (this.numBounces >= this.maxBounces && this.bounceEnabled) {
 				
 				this.bounceFrame = true;
 			}
@@ -179,6 +179,7 @@ public class BulletSkeleton implements Entity {
 		
 		return this.y;
 	}
+	
 	
 	public void adddy(float dy) {
 		
