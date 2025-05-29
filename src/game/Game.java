@@ -133,6 +133,8 @@ public class Game {
     	}
     	for (Ability ability : toShow) {
     		
+    		JLabel power = new JLabel(ability.getAbilityDescription());
+    		viewer.getMainPanel().add(power, Integer.valueOf(3));
     		System.out.println("#" + String.valueOf(toShow.indexOf(ability) + 1) + " : " + ability.getAbilityDescription());
     	}
     	
