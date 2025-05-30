@@ -29,7 +29,7 @@ public class Speedy implements Ability {
 		
 		tank.setVelocity(tank.getVelocity() * 1.4f, tank.getBackVelocity() * 1.4f);
 		
-		tank.setReloadCD(tank.getReloadCD() * .8f);
+		tank.setReloadCD(tank.getReloadCD() * .7f);
 		
 		tank.setBulletSpeed(tank.getBulletSpeed() * 1.25f);
 		

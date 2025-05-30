@@ -26,15 +26,16 @@ public class Goliath implements Ability{
 		int stack = 0;
 		for (Ability ability : tank.getAbilities()) {
 			
-			if (ability.getClass().equals(Overclock.class)) {
+			if (ability instanceof Goliath) {
 				
 				stack++;
 			}
 		}
 		
+		
 		if (cd <= 0) {
 			
-			tank.addHealth(tank.getMaxHealth() * .02f * stack);
+			tank.addHealth(tank.getMaxHealth() * .015f * stack);
 			this.cd = this.resetCD;
 		}
 		else {
@@ -49,7 +50,7 @@ public class Goliath implements Ability{
 		
 		//increase health
 		
-		tank.setMaxHealth(tank.getMaxHealth() * 1.5f);
+		tank.setMaxHealth(tank.getMaxHealth() * 1.75f);
 		tank.setHealth(tank.getMaxHealth());
 	}
 	

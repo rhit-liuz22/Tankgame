@@ -7,7 +7,7 @@ public class Overclock implements Ability{
 	
 	boolean toggle;
 	int cd = 0;
-	int resetCD = 60; // every 600 ticks will lose 2.5% of hp
+	int resetCD = 60; // every 600 ticks will lose 3% of hp
 	
 	public Overclock() {
 		
@@ -26,7 +26,7 @@ public class Overclock implements Ability{
 		int stack = 0;
 		for (Ability ability : tank.getAbilities()) {
 			
-			if (ability.getClass().equals(Overclock.class)) {
+			if (ability instanceof Overclock) {
 				
 				stack++;
 			}
@@ -47,16 +47,13 @@ public class Overclock implements Ability{
 			return;
 		}
 		
-		// increase reload speed, bullet damage and speed, movement speed, dash distance, dash reload speed, maxhp
+		// increase reload speed, bullet damage, movement speed, dash distance, dash reload speed
 		
-		tank.setReloadCD(tank.getReloadCD() * .8f);
-		tank.setBulletDamage(tank.getBulletDamage() * 1.2f);
-		tank.setBulletSpeed(tank.getBulletSpeed() * 1.5f);
+		tank.setReloadCD(tank.getReloadCD() * .6f);
+		tank.setBulletDamage(tank.getBulletDamage() * 1.4f);
 		tank.setVelocity(tank.getVelocity() * 1.35f, tank.getBackVelocity() * 1.35f);
-		tank.setMaxHealth(tank.getMaxHealth() * 1.2f);
 		tank.setDashSpeed(tank.getDashSpeed() * 1.25f);
 		tank.setDashCD(tank.getDashCD() * .8f);
-		tank.setHealth(tank.getMaxHealth());
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {
@@ -82,6 +79,6 @@ public class Overclock implements Ability{
 	public String getAbilityDescription() {
 		
 		return "Overclock - lose health over time, decrease reload time and increase bullet damage"
-				+ " and faster tank speed and faster bullet damage and increased max health";
+				+ " and faster tank speed";
 	}
 }

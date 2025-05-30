@@ -175,8 +175,8 @@ public class Game {
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
     	
-    	tank1.resetAllCooldowns();
-    	tank2.resetAllCooldowns();
+    	tank1.respawn();
+    	tank2.respawn();
     	tank1.setHealth(tank1.getMaxHealth());
     	tank2.setHealth(tank2.getMaxHealth());
     }
@@ -282,7 +282,8 @@ public class Game {
         			
         			player.incrementHalf();
         			if (player.getHalf() == 2) {
-
+        				
+        				player.incrementScore();
             			System.out.println("player " + player.getID() + " has won the round!");
         			}
         			else {

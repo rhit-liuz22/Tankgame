@@ -170,7 +170,7 @@ public class TankSkeleton implements Entity {
 		}
 	}
 	
-	public void resetAllCooldowns() {
+	public void respawn() {
 		
 		this.dx = 0;
 		this.dy = 0;
@@ -235,7 +235,7 @@ public class TankSkeleton implements Entity {
 		
 		if (this.hp + dhp <= this.maxHP) {
 			
-			this.dhp = dhp;
+			this.dhp += dhp;
 		}
 		else {
 			
