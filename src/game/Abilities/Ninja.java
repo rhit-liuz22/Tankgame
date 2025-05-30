@@ -26,7 +26,7 @@ public class Ninja implements Ability{
 		
 		// increase dash speed, dash reload speed, movement speed, reload speed, decrease max health
 		
-		tank.setDashCD(tank.getDashCD() * 0.65f);
+		tank.setDashCD(tank.getDashCD() * 0.3f);
 		tank.setDashSpeed(tank.getDashSpeed() * 1.35f);
 		tank.setVelocity(tank.getVelocity() * 1.2f, tank.getBackVelocity() * 1.2f);
 		tank.setReloadCD(tank.getReloadCD() * 0.8f);

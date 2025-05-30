@@ -281,7 +281,14 @@ public class Game {
         		if (! (player == loser)) {
         			
         			player.incrementHalf();
-        			System.out.println("player " + player.getID() + " has won the round!");
+        			if (player.getHalf() == 2) {
+
+            			System.out.println("player " + player.getID() + " has won the round!");
+        			}
+        			else {
+        				
+        				System.out.println("player " + player.getID() + " has won the half!");
+        			}
         			
         			if (player.getScore() >= 5) {
         				

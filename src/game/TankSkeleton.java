@@ -59,7 +59,6 @@ public class TankSkeleton implements Entity {
 	private float dashtheta;
 	private boolean dashBackward;
 	
-	private boolean canRender;
 	private boolean canControl;
 	
 	
@@ -95,6 +94,8 @@ public class TankSkeleton implements Entity {
 		this.color = color;
 		this.bullets = new ArrayList<>();
 		this.abilities = new ArrayList<>();
+		
+		this.canControl = true;
 	}
 	
 	public void runCalculations(float deltaTime) {
@@ -170,6 +171,11 @@ public class TankSkeleton implements Entity {
 	}
 	
 	public void resetAllCooldowns() {
+		
+		this.dx = 0;
+		this.dy = 0;
+		this.dtheta = 0;
+		this.dhp = 0;
 		
 		this.shootCD = 0;
 		this.dashCD = 0;
@@ -518,20 +524,12 @@ public class TankSkeleton implements Entity {
 		this.reloadCD = cd;
 	}
 	
-	public boolean getRender() {
-		return this.canRender;
-	}
-	
-	public void setRender(boolean render) {
-		this.canRender = render;
-	}
-	
-	public boolean getControl() {
+	public boolean getCanControl() {
 		return this.canControl;
 	}
 	
-	public void setControl(boolean control) {
-		this.canControl = control;
+	public void setCanControl(boolean can) {
+		this.canControl = can;
 	}
 	
 	public float getMaxHealth() {

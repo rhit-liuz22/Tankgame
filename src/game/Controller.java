@@ -40,6 +40,10 @@ public class Controller implements KeyListener {
             Controls controls = player.getControls();
             TankSkeleton tank = player.getTank();
             
+            if (!tank.getCanControl()) {
+            	
+            	return;
+            }
             // Handle movement
             if (pressedKeys.contains(controls.up)) {
                 tank.moveForward(deltaTime);
