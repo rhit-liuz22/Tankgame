@@ -178,6 +178,7 @@ public class TankSkeleton implements Entity {
 			
 			ability.resetCD();
 		}
+		this.bullets.removeAll(this.bullets);
 	}
 	
 	public void runAbilities() {
@@ -446,12 +447,12 @@ public class TankSkeleton implements Entity {
 	
 	public float getBulletX() {
 		
-		return getMiddleX() + (float) (16*Math.cos(this.theta * Math.PI / 180f)) - bulletradius;
+		return getMiddleX() + (float) (12*Math.cos(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
 	public float  getBulletY() {
 		
-		return getMiddleY() + (float) (16*Math.sin(this.theta * Math.PI / 180f)) - bulletradius;
+		return getMiddleY() + (float) (12*Math.sin(this.theta * Math.PI / 180f)) - bulletradius;
 	}
 	
 	public int getBulletBounces() {

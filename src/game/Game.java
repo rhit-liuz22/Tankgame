@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -93,7 +92,14 @@ public class Game {
 
         if (checkRoundOver()) {
         	
-            nextRound();
+        	for (PlayerSkeleton player : players) {
+        		
+        		if (player.getHalf() == 2) {
+        			
+        			nextRound();
+        		}
+        	}
+        	resetRound(players.get(0).getTank(), players.get(1).getTank());
         }
     	
         controller.update(deltaTime);
@@ -111,6 +117,8 @@ public class Game {
     }
     
     private void nextRound() {
+    	
+    	this.map.generate();
     	
     	int numAbilities = 5;
     	
@@ -151,10 +159,11 @@ public class Game {
 		System.out.println("You chose Power-Up #"+ index + " : " + abilitySelections.get(index - 1).getAbilityDescription());
 		
 		for (PlayerSkeleton player : players) {
-            if (player.getTank().getHealth() <= 0) {
+            if (player.getHalf() != 2) {
                 player.getTank().addAbility(abilitySelections.get(index - 1).copy());
             }
             
+            player.resetHalf();
             player.getTank().getBulletList().removeAll(player.getTank().getBulletList());
         }
 		
@@ -162,8 +171,6 @@ public class Game {
     }
     
     private void resetRound(TankSkeleton tank1, TankSkeleton tank2) {
-    	
-		this.map.generate();
 		
 		players.get(0).spawnTank(50, 50, 0);
     	players.get(1).spawnTank(500, 500, 180);
@@ -198,13 +205,8 @@ public class Game {
     					if (bullet.getY() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
     						
     						bullet.bounce(wall.getTheta() + 90);
+    						
     					}
-    					
-//    					//TODO add dx and dy to set to edges of wall
-//    					if (bullet.getX() > wall.getX()) {
-//    						
-//    						bullet.adddx(bullet.getX() - wall.getX());
-//    					}
     				}
     			}
     		} // bullet-wall
@@ -278,7 +280,7 @@ public class Game {
         		
         		if (! (player == loser)) {
         			
-        			player.incrementScore();
+        			player.incrementHalf();
         			System.out.println("player " + player.getID() + " has won the round!");
         			
         			if (player.getScore() >= 5) {

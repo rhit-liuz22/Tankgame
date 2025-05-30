@@ -154,7 +154,13 @@ public class Viewer extends JFrame {
         public void updateScores() {
             for (int i = 0; i < playerScoreLabels.length; i++) {
                 PlayerSkeleton player = game.getPlayers().get(i);
-                playerScoreLabels[i].setText("P" + player.getID() + ": " + player.getScore());
+                
+                String halfState = "";
+                if (player.getHalf() == 1) {
+                	
+                	halfState = "won half";
+                }
+                playerScoreLabels[i].setText("P" + player.getID() + ": " + player.getScore() + "     " + halfState);
             }
         }
     }

@@ -10,6 +10,7 @@ public class PlayerSkeleton {
 	private Color color;
 	
 	private int score;
+	private int half;
 	private Controls controls;
 	
 	//TODO make abilities class and create fields for collected modifications like bullet damage, size, etc
@@ -23,12 +24,9 @@ public class PlayerSkeleton {
         this.color = color;
         
         this.score = 0;
+        this.half = 0;
         this.controls = controls;
     }
-    
-    //TODO make addAbility(Ability ability){ add ability to abilityList} 
-    //TODO make runAbilities() that goes thru all abilities
-    //TODO abilities will have modifyTank() and modifyBullet() that takes tank/bullet input
     
     public void spawnTank(int x, int y, float theta) {
     	
@@ -44,6 +42,16 @@ public class PlayerSkeleton {
     
     public void incrementScore() {
         score++;
+    }
+    
+    public void incrementHalf() {
+    	
+    	this.half += 1;
+    }
+    
+    public void resetHalf() {
+    	
+    	this.half = 0;
     }
 	
     // Getters and Setters
@@ -66,6 +74,11 @@ public class PlayerSkeleton {
     public int getScore() {
     	
     	return this.score;
+    }
+    
+    public int getHalf() {
+    	
+    	return this.half;
     }
     
     public Controls getControls() {

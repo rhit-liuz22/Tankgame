@@ -125,7 +125,7 @@ public class BulletSkeleton implements Entity {
 	public void bounce(float surfaceAngle) {
 		
 		if (this.bounceEnabled && this.numBounces < this.maxBounces) {
-			
+
 			this.dtheta = 540 + 2 * surfaceAngle - 2 * this.theta;
 			
 			this.numBounces++;
@@ -170,9 +170,19 @@ public class BulletSkeleton implements Entity {
 		return this.x;
 	}
 	
-	public void adddx(float dx) {
+	public void setX(float x) {
 		
-		this.dx += dx;
+		this.x = x;
+	}
+	
+	public float getdx() {
+		
+		return this.dx;
+	}
+	
+	public void setdx(float dx) {
+		
+		this.dx = dx;
 	}
 	
 	public float getY() {
@@ -180,10 +190,20 @@ public class BulletSkeleton implements Entity {
 		return this.y;
 	}
 	
-	
-	public void adddy(float dy) {
+	public void setY(float y) {
 		
-		this.dy += dy;
+		this.y = y;
+	}
+	
+	public float getdy() {
+		
+		return this.dy;
+	}
+	
+	
+	public void setdy(float dy) {
+		
+		this.dy = dy;
 	}
 	
 	public float getNextX() {
