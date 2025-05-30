@@ -92,9 +92,10 @@ public class Game {
 
         if (checkRoundOver()) {
         	
+        	//TODO add timer with action listener that runs this code and stops, also set controllable to false
         	for (PlayerSkeleton player : players) {
         		
-        		if (player.getHalf() == 2) {
+        		if (player.getHalf() == 2) { 
         			
         			nextRound();
         		}
@@ -119,6 +120,14 @@ public class Game {
     private void nextRound() {
     	
     	this.map.generate();
+    	
+    	for (PlayerSkeleton player : players) {
+    		
+    		if (player.getHalf() != 2) {
+    			
+    			player.resetHalf();
+    		}
+    	}
     	
     	int numAbilities = 5;
     	
@@ -205,7 +214,6 @@ public class Game {
     					if (bullet.getY() < wall.getY() || bullet.getY() > wall.getY() + wall.getHeight()) {
     						
     						bullet.bounce(wall.getTheta() + 90);
-    						
     					}
     				}
     			}

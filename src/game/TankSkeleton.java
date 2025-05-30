@@ -185,6 +185,7 @@ public class TankSkeleton implements Entity {
 			ability.resetCD();
 		}
 		this.bullets.removeAll(this.bullets);
+		this.canControl = true;
 	}
 	
 	public void runAbilities() {

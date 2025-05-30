@@ -251,6 +251,11 @@ public class BulletSkeleton implements Entity {
 		this.theta = theta;
 	}
 	
+	public float getdTheta() {
+		
+		return this.dtheta;
+	}
+	
 	public boolean isExpired() {
 		
 		return this.expired;

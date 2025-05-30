@@ -7,7 +7,7 @@ public class Overclock implements Ability{
 	
 	boolean toggle;
 	int cd = 0;
-	int resetCD = 60; // every 600 ticks will lose 3% of hp
+	int resetCD = 60; // every 600 ticks will lose 2.5% of hp
 	
 	public Overclock() {
 		
