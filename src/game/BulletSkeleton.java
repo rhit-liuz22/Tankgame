@@ -27,6 +27,7 @@ public class BulletSkeleton implements Entity {
 	private TankSkeleton owner;
 	private boolean canHitOwner;
 	private int framesAlive = 0;
+	private int firstBounceFrame = -99;
 	private boolean expired = false;
 	
 	private float initialdamage;
@@ -71,7 +72,7 @@ public class BulletSkeleton implements Entity {
 	public void update() {
 		
 		this.framesAlive += 1;
-		preventSelfHit();
+		beginSelfHit();
 		updateState();
 	}
 	
@@ -96,9 +97,10 @@ public class BulletSkeleton implements Entity {
 		this.height = (int) this.radius * 2;
 	}
 	
-	public void preventSelfHit() {
+	public void beginSelfHit() {
 		
-		if (this.framesAlive > 60) {
+		if (this.framesAlive == 90 || this.framesAlive == this.firstBounceFrame + 8) {
+			
 			
 			this.canHitOwner = true;
 		}
@@ -130,7 +132,10 @@ public class BulletSkeleton implements Entity {
 			
 			this.numBounces++;
 			
-			this.canHitOwner = true;
+			if (numBounces == 1) {
+
+				this.firstBounceFrame = this.framesAlive();
+			}
 			
 			this.bounceFrame = true;
 			

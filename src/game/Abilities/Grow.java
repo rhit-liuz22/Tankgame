@@ -33,10 +33,11 @@ public class Grow implements Ability{
 	
 	public void modifyBullet(BulletSkeleton bullet) {
 
-		// increase bullet damage and speed over time
+		// increase bullet damage and speed and radius over time
 		
-		bullet.addDamage(bullet.getDamage() * 0.0035f);
-		bullet.addVelocity(bullet.getVelocity() * 0.01f);
+		bullet.setRadius(bullet.getRadius() * 1.001f);
+		bullet.addDamage((float) Math.log(bullet.getDamage()) / 20f);
+		bullet.addVelocity((float) Math.log(bullet.getVelocity()) / 5f);
 		
 		return;
 	}
@@ -58,6 +59,7 @@ public class Grow implements Ability{
 	
 	public String getAbilityDescription() {
 		
-		return "Grow - N/A, Increase Tank HP, (increase bullet damage and increase bullet speed)[over time]";
+		return "Grow - N/A, Increase Tank HP and "
+				+ "(increase bullet damage and increase bullet speed and incresae bullet radius)[over time]";
 	}
 }

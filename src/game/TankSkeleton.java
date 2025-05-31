@@ -145,7 +145,14 @@ public class TankSkeleton implements Entity {
 	
 	private void updateHealth() {
 		
-		this.hp += this.dhp;
+		if (this.hp + this.dhp <= this.maxHP) {
+
+			this.hp += this.dhp;	
+		}
+		else {
+			
+			this.hp = this.maxHP;
+		}
 		this.dhp = 0;
 	}
 	
@@ -234,14 +241,7 @@ public class TankSkeleton implements Entity {
 	
 	public void addHealth(float dhp) {
 		
-		if (this.hp + dhp <= this.maxHP) {
-			
-			this.dhp += dhp;
-		}
-		else {
-			
-			this.dhp = this.maxHP - this.hp;
-		}
+		this.dhp += dhp;
 	}
 	
 	public void render(JPanel panel, Graphics2D g2d) {

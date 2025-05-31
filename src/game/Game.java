@@ -42,6 +42,7 @@ public class Game {
         allAbilities.add(new ImpactBullets());
         allAbilities.add(new Grow());
         allAbilities.add(new Ninja());
+        allAbilities.add(new OwnerRecognition());
     }
     
     private void initializePlayers() {
@@ -251,14 +252,19 @@ public class Game {
 				
 				if (withinX && withinY) {
 					
+					boolean dodamage = true;
 					if (tank == bullet.getOwner()) {
 						if (!bullet.getCanHitOwner()) {
 							
-							break;
+							dodamage = false;
 						}
 					}
-					tank.addHealth(-bullet.getDamage());
-					bullet.setExpired();
+					if (bullet.framesAlive() > 1 && dodamage) {
+						
+						tank.addHealth(-bullet.getDamage());
+						bullet.bounce(0);
+						bullet.setExpired();
+					}
 				}
     		}
     	}

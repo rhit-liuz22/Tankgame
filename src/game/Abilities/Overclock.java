@@ -33,9 +33,9 @@ public class Overclock implements Ability{
 		}
 		
 		if (cd <= 0) {
-			
+
 			tank.addHealth(tank.getMaxHealth() * -.025f * stack);
-			this.cd = this.resetCD;
+			this.cd = this.resetCD;			
 		}
 		else {
 			

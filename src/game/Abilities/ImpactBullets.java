@@ -34,7 +34,7 @@ public class ImpactBullets implements Ability {
 				BulletSkeleton shrapnel = new BulletSkeleton(tank,
 						explode.getX() + explode.getRadius(), explode.getY() + explode.getRadius(),
 						(float) (i * 45) + rngangle, explode.getVelocity(), 0,
-						false, 0, 2, explode.getDamage() * 0.25f, tank.getColor());
+						false, 0, 2, explode.getDamage() * 0.15f, tank.getColor());
 				shrapnel.setCanHitOwner(true);
 				tank.getBulletList().add(shrapnel);
 			}
