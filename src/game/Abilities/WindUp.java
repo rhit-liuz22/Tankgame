@@ -39,6 +39,11 @@ public class WindUp implements Ability{
 		return;
 	}
 	
+	public void collisionEffect(BulletSkeleton bullet, TankSkeleton tankhit) {
+		
+		return;
+	}
+	
 	public void toggleFalse() {
 		
 		this.toggle = false;

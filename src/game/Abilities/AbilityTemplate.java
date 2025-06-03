@@ -3,18 +3,18 @@ import game.Ability;
 import game.BulletSkeleton;
 import game.TankSkeleton;
 
-public class Trickster implements Ability {
+public class AbilityTemplate implements Ability {
 	
 	boolean toggle;
 	
-	public Trickster() {
+	public AbilityTemplate() {
 		
 		this.toggle = false;
 	}
 	
-	public Trickster copy() {
+	public AbilityTemplate copy() {
 		
-		return new Trickster();
+		return new AbilityTemplate();
 	}
 
 
@@ -24,22 +24,10 @@ public class Trickster implements Ability {
 			
 			return;
 		}
-		
-		// increase times bouncing
-		tank.setBulletBounces(tank.getBulletBounces() + 2);
-		
-		// set max bounces
 	}
 	
 	public void modifyBullet(BulletSkeleton bullet) {
 
-		// increased bullet damage and speed upon each bounce
-		
-		if (bullet.isBouncing()) {
-			
-			bullet.addDamage(bullet.getDamage() * 0.2f);
-			bullet.addVelocity(bullet.getVelocity() * 0.2f);
-		}
 		return;
 	}
 	
@@ -65,6 +53,6 @@ public class Trickster implements Ability {
 	
 	public String getAbilityDescription() {
 		
-		return "Trickster - N/A, increase bullet bounces and increase (bullet damage and speed; every bounce)";
+		return "Ability Template - <insert description>";
 	}
 }

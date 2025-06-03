@@ -8,6 +8,8 @@ public interface Ability {
 	
 	void modifyBullet(BulletSkeleton bullet);
 	
+	void collisionEffect(BulletSkeleton bullet, TankSkeleton hittank);
+	
 	void toggleTrue();
 	
 	void toggleFalse();

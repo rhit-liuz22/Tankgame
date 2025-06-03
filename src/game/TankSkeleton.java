@@ -187,6 +187,7 @@ public class TankSkeleton implements Entity {
 		this.shootCD = 0;
 		this.dashCD = 0;
 		this.dashFrame = 0;
+		this.dashvel = 0;
 		for (Ability ability : abilities) {
 			
 			ability.resetCD();
